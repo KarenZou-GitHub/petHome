@@ -11,7 +11,7 @@ public interface UserDao {
 
     public User getUser(int id);
 
-    public User getUser(String nameOrEmail);
+    public User getUser(String nameOrPhone);
 
     public void addUser(User user);
 

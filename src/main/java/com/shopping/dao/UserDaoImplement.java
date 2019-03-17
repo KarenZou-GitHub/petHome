@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Created by 14437 on 2017/3/1.
- */
 @Repository
 public class UserDaoImplement implements UserDao {
 
@@ -24,12 +21,17 @@ public class UserDaoImplement implements UserDao {
         query.setParameter(0, id);
         return (User)query.uniqueResult();
     }
-
+    
     @Override
-    public User getUser(String name) {
-        String hql = "from User where name=?";
+    public User getUser(String nameOrPhone) {
+        String hql = "from User where phoneNumber=?";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter(0, name);
+        query.setParameter(0, nameOrPhone);
+        if((User)query.uniqueResult() == null){
+            hql = "from User where name=?";
+            query = sessionFactory.getCurrentSession().createQuery(hql);
+            query.setParameter(0, nameOrPhone);
+        }
         return (User)query.uniqueResult();
     }
 

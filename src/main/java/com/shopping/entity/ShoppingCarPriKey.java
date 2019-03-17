@@ -2,12 +2,12 @@ package com.shopping.entity;
 
 import java.io.Serializable;
 
-/**
- * Created by 14437 on 2017/3/3.
- */
+import javax.persistence.Column;
+
 public class ShoppingCarPriKey implements Serializable {
     private int user_id;
     private int product_id;
+    private int type;
 
     public int getUser_id() {
 		return user_id;
@@ -23,6 +23,14 @@ public class ShoppingCarPriKey implements Serializable {
 
 	public void setProduct_id(int product_id) {
 		this.product_id = product_id;
+	}
+	
+    public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	@Override

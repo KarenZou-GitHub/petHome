@@ -8,21 +8,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * ·½·¨
- * 1¡¢Ôö¼ÓÒ»Ìõ¹ºÎï¼ÇÂ¼
- * 2.ÐÞ¸Ä¹ºÎï¼ÇÂ¼
- * 3.É¾³ý¹ºÎï¼ÇÂ¼
- * 4.¸ù¾Ý¹ºÎï¼ÇÂ¼×´Ì¬»ñÈ¡¹ºÎï¼ÇÂ¼
- * 5.»ñÈ¡ËùÓÐµÄ¹ºÎï¼ÇÂ¼
- * 6.»ñÈ¡ËùÓÐÓÃ»§µÄ¹ºÎï¼ÇÂ¼
+ * ï¿½ï¿½ï¿½ï¿½
+ * 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
+ * 2.ï¿½Þ¸Ä¹ï¿½ï¿½ï¿½ï¿½Â¼
+ * 3.É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
+ * 4.ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½ï¿½Â¼×´Ì¬ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
+ * 5.ï¿½ï¿½È¡ï¿½ï¿½ï¿½ÐµÄ¹ï¿½ï¿½ï¿½ï¿½Â¼
+ * 6.ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½Â¼
  */
 @Service
 public class ShoppingRecordServiceImplement implements ShoppingRecordService {
     @Autowired
     private ShoppingRecordDao shoppingRecordDao;
     @Override
-    public ShoppingRecord getShoppingRecord(int userId, int productId,String time) {
-        return shoppingRecordDao.getShoppingRecord(userId,productId,time);
+    public ShoppingRecord getShoppingRecord(int id) {
+        return shoppingRecordDao.getShoppingRecord(id);
     }
 
     @Override
@@ -31,18 +31,8 @@ public class ShoppingRecordServiceImplement implements ShoppingRecordService {
     }
 
     @Override
-    public boolean deleteShoppingRecord(int userId, int productId) {
-        return shoppingRecordDao.deleteShoppingRecord(userId,productId);
-    }
-
-    @Override
-    public boolean updateShoppingRecord(ShoppingRecord shoppingRecord) {
-        return shoppingRecordDao.updateShoppingRecord(shoppingRecord);
-    }
-
-    @Override
-    public List<ShoppingRecord> getShoppingRecordsByOrderStatus(int orderStatus) {
-        return shoppingRecordDao.getShoppingRecordsByOrderStatus(orderStatus);
+    public boolean deleteShoppingRecord(Integer id) {
+        return shoppingRecordDao.deleteShoppingRecord(id);
     }
 
     @Override
@@ -55,8 +45,4 @@ public class ShoppingRecordServiceImplement implements ShoppingRecordService {
         return shoppingRecordDao.getAllShoppingRecords();
     }
 
-    @Override
-    public boolean getUserProductRecord(int userId,int productId) {
-        return shoppingRecordDao.getUserProductRecord(userId,productId);
-    }
 }

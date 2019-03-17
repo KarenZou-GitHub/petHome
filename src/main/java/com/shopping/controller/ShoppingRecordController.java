@@ -1,8 +1,10 @@
 package com.shopping.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.shopping.entity.Pet;
 import com.shopping.entity.Product;
 import com.shopping.entity.ShoppingRecord;
+import com.shopping.service.PetService;
 import com.shopping.service.ProductService;
 import com.shopping.service.ShoppingRecordService;
 import org.springframework.stereotype.Controller;
@@ -31,38 +33,67 @@ public class ShoppingRecordController {
     @Resource
     private ProductService productService;
     @Resource
+    private PetService petService;
+    @Resource
     private ShoppingRecordService shoppingRecordService;
 
-    @RequestMapping(value = "/addShoppingRecord",method = RequestMethod.POST)
+    @RequestMapping(value = "/addShoppingRecord",method = RequestMethod.PUT)
     @ResponseBody
     public Map<String,Object> addShoppingRecord(int type,int userId,int productId,int counts){
         String result = "false";
-        Product product = productService.getProduct(productId);
-        if(counts<=product.getCounts()) {
-            ShoppingRecord shoppingRecord = new ShoppingRecord();
-            shoppingRecord.setType(type);
-            shoppingRecord.setUser_id(userId);
-            shoppingRecord.setProduct_id(productId);
-            shoppingRecord.setProduct_price(product.getPrice());
-            shoppingRecord.setProduct_name(product.getName());
-            shoppingRecord.setCounts(counts);
-            Date date = new Date();
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-            shoppingRecord.setTime(sf.format(date));
-            product.setCounts(product.getCounts()-counts);
-            productService.updateProduct(product);
-            shoppingRecordService.addShoppingRecord(shoppingRecord);
-            result = "success";
-        }
-        else{
-            result = "unEnough";
+        if(type == 1){
+	        Product product = productService.getProduct(productId);
+	        if(product == null){
+	        	result="unexist";
+	        }else if(counts<=product.getCounts()) {
+	            ShoppingRecord shoppingRecord = new ShoppingRecord();
+	            shoppingRecord.setType(type);
+	            shoppingRecord.setUser_id(userId);
+	            shoppingRecord.setProduct_id(productId);
+	            shoppingRecord.setProduct_price(product.getPrice());
+	            shoppingRecord.setProduct_name(product.getName());
+	            shoppingRecord.setCounts(counts);
+	            Date date = new Date();
+	            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+	            shoppingRecord.setTime(sf.format(date));
+	            if(counts == product.getCounts()){
+	            	productService.deleteProduct(productId);
+	            }else{
+		            product.setCounts(product.getCounts()-counts);
+		            productService.updateProduct(product);
+	            }
+	            shoppingRecordService.addShoppingRecord(shoppingRecord);
+	            result = "suppliesSuccess";
+	        }else{
+	        	result = "unEnough";
+	        }
+        }else if(type == 0){
+	        Pet pet = petService.getPet(productId);
+	        if(counts==1) {
+	            ShoppingRecord shoppingRecord = new ShoppingRecord();
+	            shoppingRecord.setType(type);
+	            shoppingRecord.setUser_id(userId);
+	            shoppingRecord.setProduct_id(productId);
+	            shoppingRecord.setProduct_price(pet.getPrice());
+	            shoppingRecord.setProduct_name(pet.getName());
+	            shoppingRecord.setCounts(counts);
+	            Date date = new Date();
+	            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+	            shoppingRecord.setTime(sf.format(date));
+	            petService.deletePet(productId);
+	            shoppingRecordService.addShoppingRecord(shoppingRecord);
+	            result = "petSuccess";
+	        }
+	        else{
+	            result = "unEnough";
+	        }
         }
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",result);
         return resultMap;
     }
 
-    @RequestMapping(value = "/getShoppingRecords",method = RequestMethod.POST)
+    @RequestMapping(value = "/getShoppingRecords",method = RequestMethod.GET)
     @ResponseBody
     public Map<String,Object> getShoppingRecords(int userId){
         List<ShoppingRecord> shoppingRecordList = shoppingRecordService.getShoppingRecords(userId);
@@ -72,13 +103,28 @@ public class ShoppingRecordController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/getAllShoppingRecords",method = RequestMethod.POST)
+    @RequestMapping(value = "/getAllShoppingRecords",method = RequestMethod.GET)
     @ResponseBody
     public Map<String,Object> getAllShoppingRecords(){
         List<ShoppingRecord> shoppingRecordList = shoppingRecordService.getAllShoppingRecords();
         String shoppingRecords = JSONArray.toJSONString(shoppingRecordList);
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",shoppingRecords);
+        return resultMap;
+    }
+    
+    @RequestMapping(value = "/deleteShoppingRecord",method = RequestMethod.DELETE)
+    @ResponseBody
+    public Map<String,Object> deleteShoppingRecord(Integer id){
+    	String result = "fail";
+        ShoppingRecord shoppingrecord = shoppingRecordService.getShoppingRecord(id);
+        if(shoppingrecord == null){
+        	result = "unexist";	
+        }else if(shoppingRecordService.deleteShoppingRecord(id)){
+        	result="success";
+        }
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        resultMap.put("result",result);
         return resultMap;
     }
 }

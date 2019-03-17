@@ -25,7 +25,7 @@ public class ShoppingCar {
         this.user_id = user_id;
     }
 
-    
+    @Id
     @Column(name="product_id")
     public int getProduct_id() {
         return product_id;
@@ -35,7 +35,7 @@ public class ShoppingCar {
         this.product_id = product_id;
     }
     
-    
+    @Id
     @Column(name="type")
     public int getType() {
 		return type;

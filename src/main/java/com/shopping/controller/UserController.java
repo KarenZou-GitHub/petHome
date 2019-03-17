@@ -8,6 +8,7 @@ import com.shopping.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -33,32 +34,7 @@ public class UserController {
     @Resource
     UserService userService;
 
-    @RequestMapping(value = "/register")
-    public String register() {
-        return "register";
-    }
-
-    @RequestMapping(value = "/amend_info")
-    public String amend_info() {
-        return "amend_info";
-    }
-
-    @RequestMapping(value = "/login")
-    public String login() {
-        return "login";
-    }
-
-    @RequestMapping(value = "/main")
-    public String main() {
-        return "main";
-    }
-
-    @RequestMapping(value = "/control")
-    public String control() {
-        return "control";
-    }
-
-    @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
+    @RequestMapping(value = "/doLogin", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> doLogin(String name, String password, HttpSession httpSession) {
         System.out.println("登陆信息：" + name + " " + password);
@@ -83,13 +59,12 @@ public class UserController {
     public Map<String, Object> doRegister(String name, String password, String head,String phoneNumber,String email , String address) {
 
         String result = "fail";
-        try{
-        	 User user = userService.getUser(name);
-        	 user = userService.getUser(email);
-        	 //上面这两句检验是否有重名或者是用email注册过，如果出错就被catch了，就不走下面的了。hhh其实就是不知道怎么进行如果有问题就catch，没问题就继续
+        
+        User user11 = userService.getUser(name);
+        User user22 = userService.getUser(phoneNumber);
+        if(user11 != null || user22!=null){
         	 result = "nameOrEmailExist";
-        }catch(Exception e){
-        	
+        }else{
         	User user1 = new User();
             user1.setName(name);
             user1.setPassword(password);
@@ -109,22 +84,27 @@ public class UserController {
 
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doUpdate(String name, String email, String head, String password, String phoneNumber, String address) {
+    public Map<String, Object> doUpdate(int id, String name, String email, String head, String password, String phoneNumber, String address) {
         String result = "fail";
-        User user = userService.getUser(name);
-        user.setEmail(email);
-        user.setHead(head);
-        user.setAddress(address);
-        user.setPassword(password);
-        user.setPhoneNumber(phoneNumber);
-        userService.updateUser(user);
-        result = "success";
+        User user = userService.getUser(id);
+        User user1=userService.getUser(phoneNumber);
+        if(user1.getId() != user.getId()){
+        	result="phoneExist";
+        }else{
+	        user.setEmail(email);
+	        user.setHead(head);
+	        user.setAddress(address);
+	        user.setPassword(password);
+	        user.setPhoneNumber(phoneNumber);
+	        userService.updateUser(user);
+	        result = "success";
+	    }
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("result", result);
         return resultMap;
     }
 
-    @RequestMapping(value = "/getAllUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/getAllUser", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getAllUser() {
 //        System.out.println("鎴戞帴鏀跺埌浜嗚幏鍙栫敤鎴疯姹�");
@@ -137,11 +117,13 @@ public class UserController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
     @ResponseBody
-    public Map<String, Object> deleteUser(int id) {
-        String result ="fail";
-        if(userService.deleteUser(id)){
+    public Map<String, Object> deleteUser(Integer id) {
+    	String result ="fail";
+    	if(id == null){
+    		result="unexist";
+    	}else if(userService.deleteUser(id)){
            result="success";
         }
         Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -149,15 +131,21 @@ public class UserController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/getUserAddressAndPhoneNumber", method = RequestMethod.POST)
+    @RequestMapping(value = "/getUserAddressAndPhoneNumber", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getUserAddressAndPhoneNumber(int id) {
-        String address = userService.getUser(id).getAddress();
-        String phoneNumber = userService.getUser(id).getPhoneNumber();
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("address",address);
-        resultMap.put("phoneNumber",phoneNumber);
-        return resultMap;
+    public Map<String, Object> getUserAddressAndPhoneNumber(Integer id) {
+    	Map<String,Object> resultMap = new HashMap<String,Object>();
+    	
+    	if(id == null){
+    		resultMap.put("message","unexist");
+    		return resultMap;
+    	}else{
+	        String address = userService.getUser(id).getAddress();
+	        String phoneNumber = userService.getUser(id).getPhoneNumber();
+	        resultMap.put("address",address);
+	        resultMap.put("phoneNumber",phoneNumber);
+	        return resultMap;
+    	}
     }
 
     @RequestMapping(value = "/doLogout")
@@ -166,24 +154,18 @@ public class UserController {
         return "redirect:login";
     }
 
-    @RequestMapping(value = "/getUserById", method = RequestMethod.POST)
+    @RequestMapping(value = "/getUserById", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getUserById(int id) {
-        User user = userService.getUser(id);
-        String result = JSON.toJSONString(user);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
-        return resultMap;
-    }
-
-    @RequestMapping(value = "/getUserDetailById", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> getUserDetailById(int id) {
-        User user = userService.getUser(id);
-        String result = JSON.toJSONString(user);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
-        return resultMap;
+    public Map<String, Object> getUserById( Integer id) {
+    	Map<String,Object> resultMap = new HashMap<String,Object>();
+    	if(id == null){
+    		resultMap.put("message","unexsit");
+    	}else{
+	        User user = userService.getUser(id);
+	        String result = JSON.toJSONString(user);
+	        resultMap.put("result",result);
+        }
+    	return resultMap;
     }
 
 }

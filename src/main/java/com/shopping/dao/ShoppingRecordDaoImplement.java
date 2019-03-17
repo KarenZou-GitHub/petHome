@@ -18,12 +18,10 @@ public class ShoppingRecordDaoImplement implements ShoppingRecordDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public ShoppingRecord getShoppingRecord(int userId, int productId,String time) {
-        String hql = "from ShoppingRecord where user_id=? and product_id=? and time=?";
+    public ShoppingRecord getShoppingRecord(Integer id) {
+        String hql = "from ShoppingRecord where id=?";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter(0, userId);
-        query.setParameter(1, productId);
-        query.setParameter(2, time);
+        query.setParameter(0, id);
         return (ShoppingRecord) query.uniqueResult();
     }
 
@@ -33,17 +31,16 @@ public class ShoppingRecordDaoImplement implements ShoppingRecordDao {
     }
 
     @Override
-    public boolean deleteShoppingRecord(int userId, int productId) {
-        String hql = "delete ShoppingRecord where user_id=? and product_id=?";
+    public boolean deleteShoppingRecord(Integer id) {
+        String hql = "delete ShoppingRecord where id=?";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter(0, userId);
-        query.setParameter(1, productId);
+        query.setParameter(0, id);
         return query.executeUpdate() > 0;
     }
 
     @Override
     public List<ShoppingRecord> getShoppingRecords(int userId) {
-        String hql = "from ShoppingRecord where userId=?";
+        String hql = "from ShoppingRecord where user_id=?";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter(0,userId);
         return query.list();
@@ -56,20 +53,4 @@ public class ShoppingRecordDaoImplement implements ShoppingRecordDao {
         return query.list();
     }
 
-    @Override
-    public List<ShoppingRecord> getShoppingRecordsByOrderStatus(int orderStatus) {
-        String hql = "from ShoppingRecord where orderStatus=?";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter(0,orderStatus);
-        return query.list();
-    }
-
-    @Override
-    public boolean getUserProductRecord(int userId,int productId) {
-        String hql = "from ShoppingRecord where userId=? and productId=?";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter(0,userId);
-        query.setParameter(1,productId);
-        return query.list().size()>0;
-    }
 }

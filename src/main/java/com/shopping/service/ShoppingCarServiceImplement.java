@@ -33,4 +33,16 @@ public class ShoppingCarServiceImplement implements ShoppingCarService {
     public List<ShoppingCar> getShoppingCars(int userId) {
         return shoppingCarDao.getShoppingCars(userId);
     }
+
+	@Override
+	public ShoppingCar getShoppingCar(int userId, int productId) {
+		// TODO Auto-generated method stub
+		return shoppingCarDao.getShoppingCar(userId,productId);
+	}
+
+	@Override
+	public boolean updateShoppingCar(ShoppingCar shoppingcar2) {
+		// TODO Auto-generated method stub
+		return shoppingCarDao.updateShoppingCar(shoppingcar2);
+	}
 }

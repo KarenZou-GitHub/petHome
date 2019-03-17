@@ -5,7 +5,7 @@
   <artifactId>ShoppingRecommand</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Shopping</name>
+  <name>shopping</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -106,7 +106,7 @@
 
   </dependencies>
   <build>
-    <finalName>Shopping</finalName>
+    <finalName>shopping</finalName>
     <plugins>
       <!--这个插件作用是指定编译这个项目的Java版本和Project Language Level ，针对Intellij IDEA-->
       <plugin>

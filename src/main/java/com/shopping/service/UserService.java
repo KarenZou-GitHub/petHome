@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     public User getUser(int id);
 
-    public User getUser(String nameOrEmail);
+    public User getUser(String nameOrPhone);
 
     public void addUser(User user);
 

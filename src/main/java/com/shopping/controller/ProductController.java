@@ -57,16 +57,18 @@ public class ProductController {
         productList = productService.getAllProduct();
         String allProducts = JSONArray.toJSONString(productList);
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("allProducts",allProducts);
+        resultMap.put("allproducts",allProducts);
         return resultMap;
     }
 
 
-    @RequestMapping(value = "/deleteProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteProduct", method = RequestMethod.DELETE)
     @ResponseBody
-    public Map<String, Object> deleteProduct(int id) {
-        String result ="fail";
-        if(productService.deleteProduct(id)){
+    public Map<String, Object> deleteProduct(Integer id) {
+        String result ="null";
+        if(id == null){
+        	result="unexist";
+        }else if(productService.deleteProduct(id)){
             result="success";
         }
         Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -74,68 +76,56 @@ public class ProductController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/addProduct", method = RequestMethod.PUT)
     @ResponseBody
-    public Map<String, Object> addProduct(String name,String description,String keyWord,int price,int counts,int type,String img,int relateproduct_id) {
-        System.out.println("娣诲姞浜嗗晢鍝侊細"+name);
+    public Map<String, Object> addProduct(String name,String description,String keyWord,Integer price,Integer counts,Integer type,String img,Integer relateproduct_id) {
         pname=name;
         String result ="fail";
-        Product product = new Product();
-        product.setName(name);
-        product.setDescription(description);
-        product.setKeyWord(keyWord);
-        product.setPrice(price);
-        product.setCounts(counts);
-        product.setType(type);
-        product.setImg(img);
-        product.setRelateproduct_id(relateproduct_id);
-        productService.addProduct(product);
-        result = "success";
+        Product product1 = productService.getProduct(name);
+        
+        if(product1 != null){
+        	result = "nameExsit";
+        }else{
+	        Product product = new Product();
+	        product.setName(name);
+	        product.setDescription(description);
+	        product.setKeyWord(keyWord);
+	        product.setPrice((int)price);
+	        product.setCounts((int)counts);
+	        product.setType((int)type);
+	        product.setImg(img);
+	        product.setRelateproduct_id((int)relateproduct_id);
+	        productService.addProduct(product);
+	        result = "success";
+        }
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",result);
         return resultMap;
     }
 
-    @RequestMapping(value = "/productDetail", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> productDetail(int id, HttpSession httpSession) {
-        System.out.println("I am here!"+id);
-        Product product = productService.getProduct(id);
-        httpSession.setAttribute("productDetail",product);
-        System.out.print("I am here"+product.getName());
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result","success");
-        return resultMap;
-    }
     
-    /*现在好像没见过用的地方*/
-    @RequestMapping(value = "/getProductById", method = RequestMethod.POST)
+    @RequestMapping(value = "/getProductById", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getProductById(int id) {
+    public Map<String, Object> getProductById(Integer id) {
         Product product = productService.getProduct(id);
-        String result = JSON.toJSONString(product);
+        String result="fail";
+        if(product == null){
+        	result = "unexist";
+        }else{
+	        result = JSON.toJSONString(product);
+        }
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",result);
         return resultMap;
     }
 
-    @RequestMapping(value = "/product_detail")
-    public String product_detail() {
-        return "product_detail";
-    }
-
-    @RequestMapping(value = "/searchPre", method = RequestMethod.POST)
+/*    @RequestMapping(value = "/searchPre", method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> searchPre(String searchKeyWord,HttpSession httpSession) {
         httpSession.setAttribute("searchKeyWord",searchKeyWord);
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result","success");
         return resultMap;
-    }
-
-    @RequestMapping(value = "/search")
-    public String search() {
-        return "search";
     }
 
     @RequestMapping(value = "/searchProduct", method = RequestMethod.POST)
@@ -149,10 +139,10 @@ public class ProductController {
         resultMap.put("result",searchResult);
         System.out.println("鎴戣繑鍥炰簡"+searchResult);
         return resultMap;
-    }
+    }*/
 
 
-    @RequestMapping(value = "/uploadProductFile", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadProductImg", method = RequestMethod.PUT)
     @ResponseBody
     public Map<String, Object> uploadProductFile(@RequestParam MultipartFile productImgUpload,String name, HttpServletRequest request) {
         String result = "fail";
@@ -182,10 +172,10 @@ public class ProductController {
     
     
 
-    //没用到。不过这么复杂可以留着参考
+  /*  //没用到。不过这么复杂可以留着参考
    @RequestMapping(value = "/getAllProductsandRecomand")
     @ResponseBody
-    public Map<String,Object> getAllProductsandRecomand(int userId){
+    public Map<String,Object> getAllProductsandRecomand(int userId){*/
 	   /*System.out.println("鐢ㄦ埛鐨刬d锛�"+userId);
         List<Product> productList = new ArrayList<>();
         List<Product> productTem = new ArrayList<>();
@@ -310,11 +300,11 @@ public class ProductController {
             }
         }
         String allProducts = JSONArray.toJSONString(productList);*/
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-       /* resultMap.put("allProducts",allProducts);*/
+/*        Map<String,Object> resultMap = new HashMap<String,Object>();
+        resultMap.put("allProducts",allProducts);
         resultMap.put("allProducts","");
         return resultMap;
-    }
+    }*/
 
 }
 

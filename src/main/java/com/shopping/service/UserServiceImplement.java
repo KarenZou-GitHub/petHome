@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 功能
- * 1、获取用户信息（id）
- * 2、获取用户信息（string）
- * 3.添加用户（user）
- * 4.删除用户（id）
- * 5.更新用户信息（id）
- * 6.获取所有用户信息
+ * 锟斤拷锟斤拷
+ * 1锟斤拷锟斤拷取锟矫伙拷锟斤拷息锟斤拷id锟斤拷
+ * 2锟斤拷锟斤拷取锟矫伙拷锟斤拷息锟斤拷string锟斤拷
+ * 3.锟斤拷锟斤拷没锟斤拷锟絬ser锟斤拷
+ * 4.删锟斤拷锟矫伙拷锟斤拷id锟斤拷
+ * 5.锟斤拷锟斤拷锟矫伙拷锟斤拷息锟斤拷id锟斤拷
+ * 6.锟斤拷取锟斤拷锟斤拷锟矫伙拷锟斤拷息
  */
 @Service
 public class UserServiceImplement implements UserService {
@@ -28,8 +28,8 @@ public class UserServiceImplement implements UserService {
     }
 
     @Override
-    public User getUser(String nameOrEmail) {
-        return userDao.getUser(nameOrEmail);
+    public User getUser(String nameOrPhone) {
+        return userDao.getUser(nameOrPhone);
     }
 
     @Override

@@ -60,64 +60,69 @@ public class PetController {
     
     @RequestMapping(value = "/deletePet", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> deletePet(int id) {
+    public Map<String, Object> deletePet(Integer id) {
         String result ="fail";
         if(petService.deletePet(id)){
             result="success";
+        }else{
+        	result="unexist";
         }
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",result);
         return resultMap;
     }
 
-    @RequestMapping(value = "/addPet", method = RequestMethod.POST)
+    @RequestMapping(value = "/addPet", method = RequestMethod.PUT)
     @ResponseBody
-    public Map<String, Object> addPet(int type,String name,Date birthday,String breed,String color, String nature,String description,String img, int price, int relateproduct_id) {
+    public Map<String, Object> addPet(int type,String name,Date birthday,String breed,String color, String nature,String description,String img, Integer price, Integer relateproduct_id) {
         System.out.println("petname:"+name);
         pname=name;
+        Pet pet11 = petService.getPet(name);
         String result ="fail";
-        Pet pet = new Pet();
-        pet.setType(type);
-        pet.setName(name);
-        pet.setBirthday(birthday);
-        pet.setBreed(breed);
-        pet.setColor(color);
-        pet.setNature(nature);
-        pet.setDescription(description);
-        pet.setPrice(price);
-        pet.setImg(img);
-        pet.setRelateproduct_id(relateproduct_id);
-        petService.addpet(pet);
-        result = "success";
+        if(pet11 != null){
+        	result = "nameExist";
+        }else{
+	        Pet pet = new Pet();
+	        pet.setType(type);
+	        pet.setName(name);
+	        pet.setBirthday(birthday);
+	        pet.setBreed(breed);
+	        pet.setColor(color);
+	        pet.setNature(nature);
+	        pet.setDescription(description);
+	        pet.setPrice(price);
+	        pet.setImg(img);
+	        pet.setRelateproduct_id(relateproduct_id);
+	        petService.addpet(pet);
+	        result = "success";
+        }
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",result);
         return resultMap;
     }
-
-    @RequestMapping(value = "/petDetail", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> petDetail(int id, HttpSession httpSession) {
-        System.out.println("I am here!"+id);
-        Pet pet = petService.getPet(id);
-        httpSession.setAttribute("petDetail",pet);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result","success");
-        return resultMap;
-    }
-    
+ 
   
-    @RequestMapping(value = "/getPetById", method = RequestMethod.POST)
+    @RequestMapping(value = "/getPetById", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getPetById(int id) {
-       Pet pet = petService.getPet(id);
-        String result = JSON.toJSONString(pet);
+    public Map<String, Object> getPetById(Integer id) {
+    	String result = "fail";
+    	if(id == null){
+    		result = "null";
+    	}else{
+    		Pet pet = petService.getPet(id);
+    		if(pet == null){
+    			result = "unexist";
+    		}else{
+    			result = JSON.toJSONString(pet);
+    		}
+    	}
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",result);
         return resultMap;
     }
 
 
-    @RequestMapping(value = "/searchPet", method = RequestMethod.POST)
+/*    @RequestMapping(value = "/searchPet", method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> searchPet(String searchKeyWord){
         List<Pet> petList = new ArrayList<Pet>();
@@ -126,9 +131,9 @@ public class PetController {
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",searchResult);
         return resultMap;
-    }
+    }*/
     
-    @RequestMapping(value = "/getPetsByType", method = RequestMethod.POST)
+    @RequestMapping(value = "/getPetsByType", method = RequestMethod.GET)
     @ResponseBody
 	public List<Pet> getPetsByType(int type) {
 		// TODO Auto-generated method stub
@@ -137,7 +142,7 @@ public class PetController {
 	} 
 
     
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadPetImg", method = RequestMethod.PUT)
     @ResponseBody	
     public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUpload,String name, HttpServletRequest request) {
         String result = "fail";

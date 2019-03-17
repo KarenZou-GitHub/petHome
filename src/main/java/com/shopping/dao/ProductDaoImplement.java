@@ -8,9 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Created by 14437 on 2017/3/1.
- */
+
 @Repository
 public class ProductDaoImplement implements ProductDao {
     @Resource
@@ -54,7 +52,7 @@ public class ProductDaoImplement implements ProductDao {
         query.setParameter(2,product.getPrice());
         query.setParameter(3,product.getCounts());
         query.setParameter(4,product.getType());
-        query.setParameter(6,product.getId());
+        query.setParameter(5,product.getId());
         return query.executeUpdate() > 0;
     }
 

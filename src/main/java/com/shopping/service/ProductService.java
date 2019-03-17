@@ -4,9 +4,7 @@ import com.shopping.entity.Product;
 
 import java.util.List;
 
-/**
- * Created by 14437 on 2017/3/2.
- */
+
 public interface ProductService {
     public Product getProduct(int id);
 

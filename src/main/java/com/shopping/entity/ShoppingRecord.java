@@ -4,10 +4,13 @@ import java.sql.Date;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name="shopping_record")
 @IdClass(value=ShoppingRecordPriKey.class)
 public class ShoppingRecord {
+	private int id;
     private int user_id;
     private int product_id;
     private String time;
@@ -17,6 +20,16 @@ public class ShoppingRecord {
     private int counts;
 
     @Id
+    @GenericGenerator(name = "generator", strategy = "increment") //设置主键自增
+    @GeneratedValue(generator = "generator")
+    @Column(name="id")
+    public int getId(){
+    	return id;
+    }
+    public void setId(int id){
+    	this.id = id;
+    }
+    
     @Column(name="user_id")
     public int getUser_id() {
         return user_id;

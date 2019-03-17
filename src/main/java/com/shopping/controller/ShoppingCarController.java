@@ -30,9 +30,10 @@ public class ShoppingCarController {
     @Resource
     private ShoppingCarService shoppingCarService;
 
-    @RequestMapping(value = "/addSupToShoppingCar",method = RequestMethod.POST)
+    @RequestMapping(value = "/addShoppingCar",method = RequestMethod.PUT)
     @ResponseBody
-    public Map<String,Object> addSupToShoppingCar(int type,int userId,int productId,int counts,int product_price,String product_name){
+    public Map<String,Object> addShoppingCar(Integer type,Integer userId,Integer productId,Integer counts,Integer product_price,String product_name){
+        String result = "fail";
         
         ShoppingCar shoppingCar1 = new ShoppingCar();
         shoppingCar1.setUser_id(userId);
@@ -41,14 +42,23 @@ public class ShoppingCarController {
         shoppingCar1.setType(type);
         shoppingCar1.setProduct_price(product_price);
         shoppingCar1.setProduct_name(product_name);
-        shoppingCarService.addShoppingCar(shoppingCar1);
+        try{
+        	shoppingCarService.addShoppingCar(shoppingCar1);
+        	result = "addSuccess";
+        }catch(Exception e){
+        	ShoppingCar shoppingcar2 = shoppingCarService.getShoppingCar(userId,productId);
+        	shoppingcar2.setCounts(shoppingcar2.getCounts()+1);
+        	boolean tf = shoppingCarService.updateShoppingCar(shoppingcar2);
+        	if(tf) result = "addCountsSuccess";
+        	else result = "addCountsFail";
+        }
 
         Map<String, Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result","success");
+        resultMap.put("result",result);
         return resultMap;
     }
 
-    @RequestMapping(value = "/getShoppingCars",method = RequestMethod.POST)
+    @RequestMapping(value = "/getShoppingCars",method = RequestMethod.GET)
     @ResponseBody
     public Map<String,Object> getShoppingCars(int userId){
         List<ShoppingCar> shoppingCarList = shoppingCarService.getShoppingCars(userId);
@@ -58,12 +68,43 @@ public class ShoppingCarController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/deleteShoppingCar",method = RequestMethod.POST)
+    //这个是删除整个类别
+    @RequestMapping(value = "/deleteShoppingCar",method = RequestMethod.DELETE)
     @ResponseBody
     public Map<String,Object> deleteShoppingCar(int userId,int productId){
-        shoppingCarService.deleteShoppingCar(userId,productId);
-        Map<String, Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result","success");
+    	Map<String, Object> resultMap = new HashMap<String,Object>();
+    	String result = "fail";
+    	ShoppingCar shoppingcar = shoppingCarService.getShoppingCar(userId, productId);
+    	if(shoppingcar == null){
+    		result = "unexist";
+    	}else{
+    		shoppingCarService.deleteShoppingCar(userId,productId);
+    		result="success";
+    	}
+        resultMap.put("result",result);
+        return resultMap;
+    }
+    //这个是删除意见
+    @RequestMapping(value = "/minusOne",method = RequestMethod.DELETE)
+    @ResponseBody
+    public Map<String,Object> minuxOne(Integer userId,Integer productId){
+    	Map<String, Object> resultMap = new HashMap<String,Object>();
+    	String result = "fail";
+        ShoppingCar shoppingcar =  shoppingCarService.getShoppingCar(userId,productId);
+        if(shoppingcar == null){
+        	result = "unexist";
+        }else if (shoppingcar.getCounts() == 1) {
+        	deleteShoppingCar(userId,productId);
+        	result = "deleteSuccess";
+        }else{
+        	shoppingcar.setCounts(shoppingcar.getCounts()-1);
+        	if(shoppingCarService.updateShoppingCar(shoppingcar)){
+        		result="minusSuccess";
+        	}else{
+        		result="fail";
+        	}
+        }
+        resultMap.put("result",result);
         return resultMap;
     }
 }
