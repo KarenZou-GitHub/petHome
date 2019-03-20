@@ -128,7 +128,7 @@ public class UserController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deleteUser(Integer id) {
         String result = "badRequest";

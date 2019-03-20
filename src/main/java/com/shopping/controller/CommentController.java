@@ -39,7 +39,7 @@ public class CommentController {
         return resultMap;
     }
     
-    @RequestMapping(value = "/deleteComment", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteComment", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deleteComment(int id) {
     	Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -54,7 +54,7 @@ public class CommentController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/addComment", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addComment", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> addComment(Integer user_id,Integer post_id,String content) {
     	Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -76,7 +76,7 @@ public class CommentController {
         return resultMap;
     }
     
-    @RequestMapping(value = "/getCommentById", method = RequestMethod.GET)
+    @RequestMapping(value = "/getCommentById")
     @ResponseBody
     public Map<String, Object> getCommentById(int id) {
         Comment comment = commentservice.getComment(id);

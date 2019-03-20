@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,7 +60,7 @@ public class PetController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/deletePet", method = RequestMethod.POST)
+    @RequestMapping(value = "/deletePet", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> deletePet(Integer id) {
         String result = "badRequest";
@@ -111,7 +112,7 @@ public class PetController {
     }
 
 
-    @RequestMapping(value = "/getPetById", method = RequestMethod.GET)
+    @RequestMapping(value = "/getPetById")
     @ResponseBody
     public Map<String, Object> getPetById(Integer id) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -138,7 +139,7 @@ public class PetController {
     }
 
 
-    @RequestMapping(value = "/getPetsByType", method = RequestMethod.GET)
+    @RequestMapping(value = "/getPetsByType")
     @ResponseBody
     public List<Pet> getPetsByType(int type) {
         // TODO Auto-generated method stub
@@ -147,7 +148,7 @@ public class PetController {
     }
 
 
-    @RequestMapping(value = "/uploadPetImg", method = RequestMethod.PUT)
+    @RequestMapping(value = "/uploadPetImg", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUpload, String name, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<String, Object>();

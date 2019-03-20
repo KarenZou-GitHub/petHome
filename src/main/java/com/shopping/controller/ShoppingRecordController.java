@@ -38,7 +38,7 @@ public class ShoppingRecordController {
     @Resource
     private ShoppingRecordService shoppingRecordService;
 
-    @RequestMapping(value = "/addShoppingRecord", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addShoppingRecord", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> addShoppingRecord(int type, int userId, int productId, int counts) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -99,6 +99,22 @@ public class ShoppingRecordController {
         resultMap.put("code", code);
         return resultMap;
     }
+    
+    @RequestMapping(value = "/addShoppingRecordList", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> addShoppingRecordList() {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String result = "badRequest";
+        Integer code = 500;
+        
+        //怎么才能传一个数组进来呢
+        
+        resultMap.put("msg", result);
+        resultMap.put("code", code);
+        return resultMap;
+        
+    }
+    
 
     @GetMapping(value = "/getShoppingRecords")
     @ResponseBody
@@ -123,7 +139,7 @@ public class ShoppingRecordController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/deleteShoppingRecord", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteShoppingRecord", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deleteShoppingRecord(Integer id) {
         Map<String, Object> resultMap = new HashMap<String, Object>();

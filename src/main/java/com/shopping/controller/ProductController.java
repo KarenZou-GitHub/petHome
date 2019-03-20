@@ -11,6 +11,8 @@ import com.shopping.service.ShoppingCarService;
 import com.shopping.service.ShoppingRecordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,14 +63,14 @@ public class ProductController {
         return resultMap;
     }
 
-
-    @RequestMapping(value = "/deleteProduct", method = RequestMethod.DELETE)
+   
+    @RequestMapping(value = "/deleteProduct", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deleteProduct(Integer id) {
         String result = "badRequest";
         int code = 500;
         if (id == null) {
-            result = "unExistUser";
+            result = "unExistProduct";
             code = 1002;
         } else if (productService.deleteProduct(id)) {
             result = "success";
@@ -112,7 +114,7 @@ public class ProductController {
     }
 
 
-    @RequestMapping(value = "/getProductById", method = RequestMethod.GET)
+    @RequestMapping(value = "/getProductById")
     @ResponseBody
     public Map<String, Object> getProductById(Integer id) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -135,7 +137,7 @@ public class ProductController {
     }
 
 
-    @RequestMapping(value = "/uploadProductImg", method = RequestMethod.PUT)
+    @RequestMapping(value = "/uploadProductImg", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> uploadProductFile(@RequestParam MultipartFile productImgUpload, String name, HttpServletRequest request) {
         String result = "badRequest";

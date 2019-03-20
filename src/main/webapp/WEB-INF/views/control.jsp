@@ -48,6 +48,7 @@
                 <ul class="nav nav-sidebar">
                     <li class="list-group-item-diy"><a href="#section1">查看所有用户<span class="sr-only">(current)</span></a></li>
                     <li class="list-group-item-diy"><a href="#section2">查看所有商品</a></li>
+                    <li class="list-group-item-diy"><a href="#section5">查看所有宠物</a></li>
                     <li class="list-group-item-diy"><a href="#section3">添加宠物用品</a></li>
                     <li class="list-group-item-diy"><a href="#section4">添加宠物</a></li>
                 </ul>
@@ -66,6 +67,14 @@
                     <h1><a name="section2">商品信息</a></h1>
                     <hr/>
                     <div class="col-lg-12 col-md-12 col-sm-12" id="productArea"></div>
+                    <br/>
+                </div>
+                
+                <div class="col-md-12">
+                    <hr/>
+                    <h1><a name="section5">宠物信息</a></h1>
+                    <hr/>
+                    <div class="col-lg-12 col-md-12 col-sm-12" id="petArea"></div>
                     <br/>
                 </div>
 
@@ -295,7 +304,9 @@
         var loading = layer.load(0);
         listAllUser();
         listAllProduct();
+        listAllPet();
         layer.close(loading);
+/* ---------------------------------------------初始化dom------------------------------------------------------------------------ */        
         //列出所有用户
         function listAllUser() {
             var userTable = document.getElementById("userTable");
@@ -396,27 +407,78 @@
             });
             return allProducts;
         }
+        
+        function listAllPet() {
+            var petArea = document.getElementById("petArea");
+            var allPet = getAllPets();
+            var html="";
+            petArea.innerHTML = '';
+            for(var i=0;i<allPet.length;i++){
+                /* var imgURL = "/Shopping/img/"+allProduct[i].id+".jpg"; */
+                var imgURL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553102698415&di=74e61c526cee2b1701df33ef8c2b8903&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201703%2F17%2F20170317182053_rEtiz.thumb.224_0.jpeg";
+                html+='<div class="col-sm-4 col-md-4 pd-5">'+
+                    '<div class="boxes">'+
+                    '<div class="big bigimg">'+
+                    '<img src="'+imgURL+'">'+
+                    '</div>'+
+                    '<p class="font-styles center">'+allPet[i].name+'</p>'+
+                    '<p class="pull-right">价格：'+allPet[i].price+'</p>'+
+                    '<p class="pull-left">品种：'+allPet[i].breed+'</p>'+
+                    '<div class = "row">'+
+                    '<button class="btn btn-primary delete-button" type="submit" onclick="deletePet('+allPet[i].id+')">删除商品</button>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>';
+            }
+            petArea.innerHTML+=html;
+        }
+        //列出所有商品
 
+        function getAllPets() {
+            var allPets = null;
+            var nothing = {};
+            $.ajax({
+                async : false, //设置同步
+                type : 'GET',
+                url : '/Shopping/getAllPets',
+                data : nothing,
+                dataType : 'json',
+                success : function(result) {
+                    if (result!=null) {
+                        allPets = result.data;
+                    }
+                    else{
+                        layer.alert('查询所有商品错误');
+                    }
+                },
+                error : function(result) {
+                    layer.alert('查询所有商品错误');
+                }
+            });
+            return allPets;
+        }
+
+/*---------------------------------------------------------- 处理删除----------------------------------------------------------- */
         function deleteUser(id) {
             var user = {};
             user.id = id;
             var deleteResult = "";
             $.ajax({
                 async : false,
-                type : 'DELETE',
+                type : 'POST',
                 url : '/Shopping/deleteUser',
                 data : user,
                 dataType : 'json',
                 success : function(result) {
                     deleteResult = result.msg;
-                },
-                error : function(result) {
-                    layer.alert('查询用户错误');
                 }
             });
-            if(deleteResult != "success")
-                layer.alert("删除用户出错");
-            listAllUser()
+            if(deleteResult = "success"){
+            	layer.msg('删除用户成功', {icon: 1, time: 1000});
+            }else{
+                layer.alert(deleteResult);
+            }
+            listAllUser();
         }
 
         function deleteProduct(id) {
@@ -426,8 +488,30 @@
             $.ajax({
                 async : false,
                 type : 'POST',
-                url : '/Shopping/deleteProduct',
+                url : '/Shopping/deleteProduct/',
                 data : product,
+                dataType : 'json',
+                success : function(result) {
+                    deleteResult = result.msg;
+                }
+            });
+            if(deleteResult = "success"){
+            	layer.msg('删除商品成功', {icon: 1, time: 1000});
+            }else{
+                layer.alert(deleteResult);
+            }
+            listAllProduct();
+        }
+        
+        function deletePet(id) {
+            var pet = {};
+            pet.id = id;
+            var deleteResult = "";
+            $.ajax({
+                async : false,
+                type : 'POST',
+                url : '/Shopping/deletePet',
+                data : pet,
                 dataType : 'json',
                 success : function(result) {
                     deleteResult = result.msg;
@@ -436,11 +520,14 @@
                     layer.alert('删除商品错误');
                 }
             });
-            if(deleteResult != "success")
-                layer.alert("删除商品出错");
-            listAllProduct();
+            if(deleteResult = "success"){
+            	layer.msg('删除商品成功', {icon: 1, time: 1000});
+            }else{
+                layer.alert(deleteResult);
+            }
+            listAllPet();
         }
-
+/*-------------------------------------------------- 增加商品 --------------------------------------------------------------------*/
         function addProduct() {
             var loadings = layer.load(0);
             var product = {};

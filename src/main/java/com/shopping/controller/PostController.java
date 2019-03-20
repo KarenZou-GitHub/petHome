@@ -42,7 +42,7 @@ public class PostController {
         return resultMap;
     }
     
-    @RequestMapping(value = "/addPost", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addPost", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> addPost(int user_id,String title,String img,String content) {
     	Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -68,7 +68,7 @@ public class PostController {
         return resultMap;
     }
     
-    @RequestMapping(value = "/deletePost", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deletePost", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deletePost(Integer id) {
     	Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -83,7 +83,7 @@ public class PostController {
         return resultMap;
     }
     
-    @RequestMapping(value = "/getPostById", method = RequestMethod.GET)
+    @RequestMapping(value = "/getPostById")
     @ResponseBody
     public Map<String, Object> getPostById(Integer id) {
         Post post = postService.getPost(id);

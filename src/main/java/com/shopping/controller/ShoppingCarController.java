@@ -30,7 +30,7 @@ public class ShoppingCarController {
     @Resource
     private ShoppingCarService shoppingCarService;
 
-    @RequestMapping(value = "/addShoppingCar", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addShoppingCar", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> addShoppingCar(Integer type, Integer userId, Integer productId, Integer counts, Integer product_price, String product_name) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -79,7 +79,7 @@ public class ShoppingCarController {
     }
 
     //这个是删除整个类别
-    @RequestMapping(value = "/deleteShoppingCar", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteShoppingCar", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deleteShoppingCar(int userId, int productId) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -100,7 +100,7 @@ public class ShoppingCarController {
     }
 
     //这个是删除一件
-    @RequestMapping(value = "/minusOne", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/minusOne", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> minuxOne(Integer userId, Integer productId) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
