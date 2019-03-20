@@ -14,16 +14,16 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * 功能
- * 1.登陆（表项）
- * 2.注册（表项）
- * 3.更新个人信息（表项）
- * 4.获取所有用户信息
- * 5.删除用户（id）
- * 6.获取用户地址和电话号码（id）
- * 7.退出登录
- * 8.获取用户简单信息（id）
- * 9.获取用户详细信息（id）
+ * 鍔熻兘
+ * 1.鐧婚檰锛堣〃椤癸級
+ * 2.娉ㄥ唽锛堣〃椤癸級
+ * 3.鏇存柊涓汉淇℃伅锛堣〃椤癸級
+ * 4.鑾峰彇鎵�鏈夌敤鎴蜂俊鎭�
+ * 5.鍒犻櫎鐢ㄦ埛锛坕d锛�
+ * 6.鑾峰彇鐢ㄦ埛鍦板潃鍜岀數璇濆彿鐮侊紙id锛�
+ * 7.閫�鍑虹櫥褰�
+ * 8.鑾峰彇鐢ㄦ埛绠�鍗曚俊鎭紙id锛�
+ * 9.鑾峰彇鐢ㄦ埛璇︾粏淇℃伅锛坕d锛�
  **/
 @Controller
 public class UserController {
@@ -31,10 +31,10 @@ public class UserController {
     @Resource
     UserService userService;
 
-    @PostMapping(value = "/doLogin")
+    @RequestMapping(value = "/doLogin", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> doLogin(String name, String password, HttpSession httpSession) {
-        System.out.println("登陆信息：" + name + " " + password);
+        System.out.println("鐧婚檰淇℃伅锛�" + name + " " + password);
         String result = "badRequest";
         Integer code = 201;
         User user = userService.getUser(name);
@@ -57,7 +57,7 @@ public class UserController {
         return resultMap;
     }
 
-    @PostMapping(value = "/doRegister")
+    @RequestMapping(value = "/doRegister")
     @ResponseBody
     public Map<String, Object> doRegister(String name, String password, String head, String phoneNumber, String email, String address) {
 
@@ -203,5 +203,31 @@ public class UserController {
         resultMap.put("data", currentUser);
         resultMap.put("code", 200);
         return resultMap;
+    }
+    
+    //important, do not delete
+    @RequestMapping(value = "/register")
+    public String register() {
+        return "register";
+    }
+
+    @RequestMapping(value = "/amend_info")
+    public String amend_info() {
+        return "amend_info";
+    }
+
+    @RequestMapping(value = "/login")
+    public String login() {
+        return "login";
+    }
+
+    @RequestMapping(value = "/main")
+    public String main() {
+        return "main";
+    }
+
+    @RequestMapping(value = "/control")
+    public String control() {
+        return "control";
     }
 }

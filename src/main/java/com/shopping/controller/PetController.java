@@ -77,7 +77,7 @@ public class PetController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/addPet", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addPet", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> addPet(int type, String name, Date birthday, String breed, String color, String nature, String description, String img, Integer price, Integer relateproduct_id) {
         System.out.println("petname:" + name);

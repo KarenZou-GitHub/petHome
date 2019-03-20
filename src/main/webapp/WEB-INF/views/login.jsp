@@ -119,7 +119,7 @@
             user.password = document.getElementById("inputPassword").value;
             $.ajax({
                 async : false,
-                type : 'POST',
+                type : 'GET',
                 url : '/Shopping/doLogin',
                 data : user,
                 dataType : 'json',
@@ -135,7 +135,7 @@
 
             if(loginResult == 200){
                 layer.msg('登录成功',{icon:1});
-                window.location.href = "/Shopping/main";
+                window.location.href = "/Shopping/control";
             }
             else if(loginResult == 1002){
                 layer.msg('是不是用户名记错了？',{icon:2});
