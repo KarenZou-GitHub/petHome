@@ -38,7 +38,7 @@ public class PostController {
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("allPosts",allPosts);
         resultMap.put("msg", "success");
-        resultMap.put("code", "200");
+        resultMap.put("code", 200);
         return resultMap;
     }
     
@@ -47,7 +47,7 @@ public class PostController {
     public Map<String, Object> addPost(int user_id,String title,String img,String content) {
     	Map<String,Object> resultMap = new HashMap<String,Object>();
     	String result = "badRequest";
-        String code="500";
+        int code=500;
         User user = userservice.getUser(user_id);
         Post post = new Post();
         post.setUser_id(user_id);
@@ -62,7 +62,7 @@ public class PostController {
         postService.addPost(post);
         
         result = "success";
-        code="200";
+        code=200;
         resultMap.put("msg",result);
         resultMap.put("code", code);
         return resultMap;
@@ -73,10 +73,10 @@ public class PostController {
     public Map<String, Object> deletePost(Integer id) {
     	Map<String,Object> resultMap = new HashMap<String,Object>();
     	String result = "badRequest";
-        String code="500";
+        int code=500;
         if(postService.deletePost(id)){
             result="success";
-            code="200";
+            code=200;
         }
         resultMap.put("msg",result);
         resultMap.put("code", code);
@@ -91,7 +91,7 @@ public class PostController {
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("post",poststr);
         resultMap.put("msg","success");
-        resultMap.put("code", "200");
+        resultMap.put("code", 200);
         return resultMap;
     }
 }

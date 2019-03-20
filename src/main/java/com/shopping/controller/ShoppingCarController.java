@@ -35,7 +35,7 @@ public class ShoppingCarController {
     public Map<String, Object> addShoppingCar(Integer type, Integer userId, Integer productId, Integer counts, Integer product_price, String product_name) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
 
         ShoppingCar shoppingCar1 = new ShoppingCar();
         shoppingCar1.setUser_id(userId);
@@ -47,17 +47,17 @@ public class ShoppingCarController {
         try {
             shoppingCarService.addShoppingCar(shoppingCar1);
             result = "success";
-            code = "200";
+            code = 200;
         } catch (Exception e) {
             ShoppingCar shoppingcar2 = shoppingCarService.getShoppingCar(userId, productId);
             shoppingcar2.setCounts(shoppingcar2.getCounts() + 1);
             boolean tf = shoppingCarService.updateShoppingCar(shoppingcar2);
             if (tf) {
                 result = "success";
-                code = "200";
+                code = 200;
             } else {
                 result = "failUpdate";
-                code = "3005";
+                code = 3005;
             }
         }
 
@@ -74,7 +74,7 @@ public class ShoppingCarController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("shoppingCars", shoppingCars);
         resultMap.put("msg", "success");
-        resultMap.put("code", "200");
+        resultMap.put("code", 200);
         return resultMap;
     }
 
@@ -84,15 +84,15 @@ public class ShoppingCarController {
     public Map<String, Object> deleteShoppingCar(int userId, int productId) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         ShoppingCar shoppingcar = shoppingCarService.getShoppingCar(userId, productId);
         if (shoppingcar == null) {
             result = "unExistShoppingCar";
-            code = "3002";
+            code = 3002;
         } else {
             shoppingCarService.deleteShoppingCar(userId, productId);
             result = "success";
-            code = "200";
+            code = 200;
         }
         resultMap.put("msg", result);
         resultMap.put("code", code);
@@ -105,23 +105,23 @@ public class ShoppingCarController {
     public Map<String, Object> minuxOne(Integer userId, Integer productId) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         ShoppingCar shoppingcar = shoppingCarService.getShoppingCar(userId, productId);
         if (shoppingcar == null) {
             result = "unExistShoppingCar";
-            code = "3002";
+            code = 3002;
         } else if (shoppingcar.getCounts() == 1) {
             deleteShoppingCar(userId, productId);
             result = "success";
-            code = "200";
+            code = 200;
         } else {
             shoppingcar.setCounts(shoppingcar.getCounts() - 1);
             if (shoppingCarService.updateShoppingCar(shoppingcar)) {
                 result = "success";
-                code = "200";
+                code = 200;
             } else {
                 result = "failUpdate";
-                code = "3005";
+                code = 3005;
             }
         }
         resultMap.put("msg", result);

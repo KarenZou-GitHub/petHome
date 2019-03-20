@@ -35,7 +35,7 @@ public class CommentController {
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("allComments",allComments);
         resultMap.put("msg", "success");
-        resultMap.put("code", "200");
+        resultMap.put("code", 200);
         return resultMap;
     }
     
@@ -44,10 +44,10 @@ public class CommentController {
     public Map<String, Object> deleteComment(int id) {
     	Map<String,Object> resultMap = new HashMap<String,Object>();
     	String result = "badRequest";
-        String code="500";
+        int code = 500;
         if(commentservice.deleteComment(id)){
             result="success";
-            code="200";
+            code = 200;
         }
         resultMap.put("msg",result);
         resultMap.put("code", code);
@@ -59,7 +59,7 @@ public class CommentController {
     public Map<String, Object> addComment(Integer user_id,Integer post_id,String content) {
     	Map<String,Object> resultMap = new HashMap<String,Object>();
     	String result = "badRequest";
-        String code="500";
+        int code=500;
         Comment comment = new Comment();
         comment.setUser_id(user_id);
         comment.setPost_id(post_id);
@@ -70,7 +70,7 @@ public class CommentController {
 
         commentservice.addComment(comment);
         result = "success";
-        code = "200";
+        code = 200;
         resultMap.put("msg",result);
         resultMap.put("code", code);
         return resultMap;
@@ -84,7 +84,7 @@ public class CommentController {
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("comment",commentstr);
         resultMap.put("msg", "success");
-        resultMap.put("code", "200");
+        resultMap.put("code", 200);
         return resultMap;
     }
     

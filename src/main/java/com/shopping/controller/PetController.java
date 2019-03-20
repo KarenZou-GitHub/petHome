@@ -63,13 +63,13 @@ public class PetController {
     @ResponseBody
     public Map<String, Object> deletePet(Integer id) {
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         if (petService.deletePet(id)) {
             result = "success";
-            code = "200";
+            code = 200;
         } else {
             result = "unExistProduct";
-            code = "2002";
+            code = 2002;
         }
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("msg", result);
@@ -84,10 +84,10 @@ public class PetController {
         pname = name;
         Pet pet11 = petService.getPet(name);
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         if (pet11 != null) {
             result = "nameExist";
-            code = "2000";
+            code = 2000;
         } else {
             Pet pet = new Pet();
             pet.setType(type);
@@ -102,7 +102,7 @@ public class PetController {
             pet.setRelateproduct_id(relateproduct_id);
             petService.addpet(pet);
             result = "success";
-            code = "200";
+            code = 200;
         }
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("msg", result);
@@ -116,20 +116,20 @@ public class PetController {
     public Map<String, Object> getPetById(Integer id) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         if (id == null) {
             result = "wrongParam";
-            code = "2001";
+            code = 2001;
         } else {
             Pet pet = petService.getPet(id);
             if (pet == null) {
                 result = "unExistProduct";
-                code = "2002";
+                code = 2002;
             } else {
                 String petstr = JSON.toJSONString(pet);
                 resultMap.put("pet", petstr);
                 result = "success";
-                code = "200";
+                code = 200;
             }
         }
         resultMap.put("msg", result);
@@ -152,7 +152,7 @@ public class PetController {
     public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUpload, String name, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         try {
             System.out.println(pname + "shagnp" + name);
             if (petImgUpload != null && !petImgUpload.isEmpty()) {
@@ -168,7 +168,7 @@ public class PetController {
                 File file = new File(fileFolder, fileName);
                 petImgUpload.transferTo(file);
                 result = "success";
-                code = "200";
+                code = 200;
             }
         } catch (Exception e) {
             e.printStackTrace();

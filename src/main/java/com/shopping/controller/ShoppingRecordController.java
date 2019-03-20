@@ -128,14 +128,14 @@ public class ShoppingRecordController {
     public Map<String, Object> deleteShoppingRecord(Integer id) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         ShoppingRecord shoppingrecord = shoppingRecordService.getShoppingRecord(id);
         if (shoppingrecord == null) {
             result = "unExistShoppingRecord";
-            code = "4002";
+            code = 4002;
         } else if (shoppingRecordService.deleteShoppingRecord(id)) {
             result = "success";
-            code = "200";
+            code = 200;
         }
         resultMap.put("msg", result);
         resultMap.put("code", code);

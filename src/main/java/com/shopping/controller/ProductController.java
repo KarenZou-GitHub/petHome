@@ -66,13 +66,13 @@ public class ProductController {
     @ResponseBody
     public Map<String, Object> deleteProduct(Integer id) {
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         if (id == null) {
             result = "unExistUser";
-            code = "1002";
+            code = 1002;
         } else if (productService.deleteProduct(id)) {
             result = "success";
-            code = "200";
+            code = 200;
         }
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("msg", result);
@@ -85,12 +85,12 @@ public class ProductController {
     public Map<String, Object> addProduct(String name, String description, String keyWord, Integer price, Integer counts, Integer type, String img, Integer relateproduct_id) {
         
     	String result = "badRequest";
-        String code = "500";
+        int code = 500;
         Product product1 = productService.getProduct(name);
 
         if (product1 != null) {
             result = "nameExsit";
-            code = "2000";
+            code = 2000;
         } else {
             Product product = new Product();
             product.setName(name);
@@ -103,7 +103,7 @@ public class ProductController {
             product.setRelateproduct_id((int) relateproduct_id);
             productService.addProduct(product);
             result = "success";
-            code = "200";
+            code = 200;
         }
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("msg", result);
@@ -118,15 +118,15 @@ public class ProductController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Product product = productService.getProduct(id);
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         if (product == null) {
             result = "unExistProduct";
-            code = "2002";
+            code = 2002;
         } else {
             String productstr = JSON.toJSONString(product);
             resultMap.put("product", productstr);
             result = "success";
-            code = "200";
+            code = 200;
         }
 
         resultMap.put("msg", result);
@@ -139,7 +139,7 @@ public class ProductController {
     @ResponseBody
     public Map<String, Object> uploadProductFile(@RequestParam MultipartFile productImgUpload, String name, HttpServletRequest request) {
         String result = "badRequest";
-        String code = "500";
+        int code = 500;
         try {
             System.out.println(pname + "shagnp" + name);
             if (productImgUpload != null && !productImgUpload.isEmpty()) {
@@ -154,7 +154,7 @@ public class ProductController {
                 File file = new File(fileFolder, fileName);
                 productImgUpload.transferTo(file);
                 result = "success";
-                code = "200";
+                code = 200;
             }
         } catch (Exception e) {
             e.printStackTrace();
