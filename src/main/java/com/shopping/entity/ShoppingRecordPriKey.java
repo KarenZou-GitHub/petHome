@@ -5,9 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-/**
- * Created by 14437 on 2017/3/3.
- */
+
 public class ShoppingRecordPriKey implements Serializable {
     private int user_id;
     private int product_id;

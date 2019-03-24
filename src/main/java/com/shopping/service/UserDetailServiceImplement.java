@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by 14437 on 2017/3/1.
- */
+
 @Service
 public class UserDetailServiceImplement implements UserDetailService{
 

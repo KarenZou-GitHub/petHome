@@ -101,7 +101,7 @@ public class PetController {
             pet.setNature(nature);
             pet.setDescription(description);
             pet.setPrice(price);
-            pet.setImg(img);
+            pet.setImg("/Shopping/img/pet/"+img+"。jpg");
             pet.setRelateproduct_id(relateproduct_id);
             petService.addpet(pet);
             result = "success";
@@ -175,6 +175,19 @@ public class PetController {
 
         resultMap.put("msg", result);
         resultMap.put("code", code);
+        return resultMap;
+    }
+    
+    
+    @RequestMapping(value = "/searchPet")
+    @ResponseBody
+    public Map<String, Object> searchPet(String keyWord) {
+        List<Pet> petList = new ArrayList<>();
+        petList = petService.searchPet(keyWord);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("data", petList);
+        resultMap.put("msg", "success");
+        resultMap.put("code", 200);
         return resultMap;
     }
 

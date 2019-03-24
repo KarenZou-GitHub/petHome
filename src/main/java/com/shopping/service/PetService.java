@@ -22,4 +22,6 @@ public interface PetService {
 	
 	List<Pet> getPetsByType(int type);
 
+	List<Pet> searchPet(String keyWord);
+
 }

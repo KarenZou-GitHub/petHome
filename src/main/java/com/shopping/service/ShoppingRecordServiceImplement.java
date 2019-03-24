@@ -7,15 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * ����
- * 1������һ�������¼
- * 2.�޸Ĺ����¼
- * 3.ɾ�������¼
- * 4.���ݹ����¼״̬��ȡ�����¼
- * 5.��ȡ���еĹ����¼
- * 6.��ȡ�����û��Ĺ����¼
- */
+
 @Service
 public class ShoppingRecordServiceImplement implements ShoppingRecordService {
     @Autowired

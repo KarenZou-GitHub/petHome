@@ -53,6 +53,12 @@ public class PetServiceImplement implements PetService {
 	public List<Pet> getPetsByType(int type) {
 		// TODO Auto-generated method stub
 		return petdao.getPetsByType(type);
+	}
+
+	@Override
+	public List<Pet> searchPet(String keyWord) {
+		// TODO Auto-generated method stub
+		return petdao.getPetsByKeyWord(keyWord);
 	} 
 
 

@@ -51,4 +51,10 @@ public class ProductServiceImplement implements ProductService {
     public List<Product> getAllProduct() {
         return productDao.getAllProduct();
     }
+
+	@Override
+	public List<Product> searchSupply(String keyWord) {
+		// TODO Auto-generated method stub
+		return productDao.getProductsByKeyWord(keyWord);
+	}
 }

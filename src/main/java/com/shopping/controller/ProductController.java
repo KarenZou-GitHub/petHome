@@ -3,6 +3,7 @@ package com.shopping.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.shopping.entity.Pet;
 import com.shopping.entity.Product;
 import com.shopping.entity.ShoppingCar;
 import com.shopping.entity.ShoppingRecord;
@@ -109,7 +110,7 @@ public class ProductController {
             product.setPrice((int) price);
             product.setCounts((int) counts);
             product.setType((int) type);
-            product.setImg(img);
+            product.setImg("/Shopping/img/supply/"+img+".jpg");
             product.setRelateproduct_id((int) relateproduct_id);
             productService.addProduct(product);
             result = "success";
@@ -176,6 +177,19 @@ public class ProductController {
     @RequestMapping(value = "/product_detail")
     public String product_detail() {
         return "product_detail";
+    }
+    
+    @RequestMapping(value = "/searchSupply")
+    @ResponseBody
+    public Map<String, Object> searchPet(String keyWord) {
+        // TODO Auto-generated method stub
+        List<Product> productList = new ArrayList<>();
+        productList = productService.searchSupply(keyWord);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("data", productList);
+        resultMap.put("code", 200);
+        resultMap.put("msg", "success");
+        return resultMap;
     }
 
 }

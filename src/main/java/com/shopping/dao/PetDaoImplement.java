@@ -75,7 +75,7 @@ public class PetDaoImplement implements PetDao {
         }
         System.out.println("我搜索了:"+queryKeyWord);
         //这里的type是个数字，之后可以改成字符串，就好认一些
-        String hql = "from Pet where name like ? or nature like ? or breed like ? or type like ?";
+        String hql = "from Pet where name like ? or nature like ? or breed like ? or description like ?";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter(0,queryKeyWord);
         query.setParameter(1,queryKeyWord);
@@ -91,5 +91,6 @@ public class PetDaoImplement implements PetDao {
         query.setParameter(0,type);
         return query.list();
     }
+
 
 }

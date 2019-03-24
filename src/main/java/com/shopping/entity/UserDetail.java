@@ -4,9 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-/**
- * Created by 14437 on 2017/3/1.
- */
+
 @Entity
 @Table(name="user_detail")
 public class UserDetail {

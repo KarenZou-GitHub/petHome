@@ -18,8 +18,9 @@ public interface PetDao {
 	
 	boolean updatePet(Pet pet);
 
-	List<Pet> getPetsByKeyWord(String searchKeyWord);
+	List<Pet> getPetsByKeyWord(String keyWord);
 	
     List<Pet> getPetsByType(int type);
+
 
 }

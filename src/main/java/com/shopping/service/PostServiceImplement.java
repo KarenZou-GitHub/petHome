@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.shopping.dao.PostDao;
 import com.shopping.entity.Post;
 @Service
-public class PostServiceImolement implements PostService {
+public class PostServiceImplement implements PostService {
 
 	@Autowired
 	private PostDao postdao;

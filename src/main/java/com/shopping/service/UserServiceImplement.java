@@ -7,15 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * ����
- * 1����ȡ�û���Ϣ��id��
- * 2����ȡ�û���Ϣ��string��
- * 3.����û���user��
- * 4.ɾ���û���id��
- * 5.�����û���Ϣ��id��
- * 6.��ȡ�����û���Ϣ
- */
+
 @Service("user")
 public class UserServiceImplement implements UserService {
 

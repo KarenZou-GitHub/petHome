@@ -21,4 +21,6 @@ public interface ProductService {
     public List<Product> getProductsByType(int type);
 
     public List<Product> getAllProduct();
+
+	public List<Product> searchSupply(String keyWord);
 }
