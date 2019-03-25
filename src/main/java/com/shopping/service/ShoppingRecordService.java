@@ -14,8 +14,6 @@ public interface ShoppingRecordService {
 
     public boolean deleteShoppingRecord(int userId,int productId);
 
-    public boolean updateShoppingRecord(ShoppingRecord shoppingRecord);
-
     public List<ShoppingRecord> getShoppingRecordsByOrderStatus(int orderStatus);
 
     public List<ShoppingRecord> getShoppingRecords(int userId);

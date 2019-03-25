@@ -2,6 +2,7 @@ package com.shopping.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.shopping.entity.ShoppingCar;
+import com.shopping.service.PetService;
 import com.shopping.service.ProductService;
 import com.shopping.service.ShoppingCarService;
 import org.springframework.stereotype.Controller;
@@ -25,34 +26,25 @@ public class ShoppingCarController {
     @Resource
     private ProductService productService;
     @Resource
+    private PetService petService;
+    @Resource
     private ShoppingCarService shoppingCarService;
 
-    @RequestMapping(value = "/shopping_car")
-    public String shopping_car(){
-        return "shopping_car";
-    }
-
-    @RequestMapping(value = "/addShoppingCar",method = RequestMethod.POST)
+    @RequestMapping(value = "/addSupToShoppingCar",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> addShoppingCar(int userId,int productId,int counts){
-        System.out.println("鏁伴噺涓�"+counts);
-        ShoppingCar shoppingCar = shoppingCarService.getShoppingCar(userId,productId);
-        if(shoppingCar == null){
-            ShoppingCar shoppingCar1 = new ShoppingCar();
-            shoppingCar1.setUserId(userId);
-            shoppingCar1.setProductId(productId);
-            shoppingCar1.setCounts(counts);
-            shoppingCar1.setProductPrice(productService.getProduct(productId).getPrice()*counts);
-            shoppingCarService.addShoppingCar(shoppingCar1);
-        }
-        else{
-            shoppingCar.setCounts(shoppingCar.getCounts()+counts);
-            shoppingCar.setProductPrice(productService.getProduct(productId).getPrice()*shoppingCar.getCounts());
-            shoppingCarService.updateShoppingCar(shoppingCar);
-        }
+    public Map<String,Object> addSupToShoppingCar(int type,int userId,int productId,int counts,int product_price,String product_name){
+        
+        ShoppingCar shoppingCar1 = new ShoppingCar();
+        shoppingCar1.setUser_id(userId);
+        shoppingCar1.setProduct_id(productId);
+        shoppingCar1.setCounts(counts);
+        shoppingCar1.setType(type);
+        shoppingCar1.setProduct_price(product_price);
+        shoppingCar1.setProduct_name(product_name);
+        shoppingCarService.addShoppingCar(shoppingCar1);
+
         Map<String, Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result","success");
-        System.out.println("鎴戣繑鍥炰簡");
         return resultMap;
     }
 
@@ -72,7 +64,6 @@ public class ShoppingCarController {
         shoppingCarService.deleteShoppingCar(userId,productId);
         Map<String, Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result","success");
-        System.out.println("鎴戣繑鍥炰簡");
         return resultMap;
     }
 }

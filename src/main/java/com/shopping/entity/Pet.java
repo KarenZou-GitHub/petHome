@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="Pets")
+@Table(name="pets")
 public class Pet {
     private int id;
     private int type; //0是猫，1是狗，2是兔子，3是其他宠物

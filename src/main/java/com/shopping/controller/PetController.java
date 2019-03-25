@@ -57,6 +57,7 @@ public class PetController {
         resultMap.put("allPets",allPets);
         return resultMap;
     }
+    
     @RequestMapping(value = "/deletePet", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deletePet(int id) {
@@ -135,14 +136,15 @@ public class PetController {
 		//这个是随便写写的
 	} 
 
-
+    
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    @ResponseBody
+    @ResponseBody	
     public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUpload,String name, HttpServletRequest request) {
         String result = "fail";
         try{
             System.out.println(pname+"shagnp"+name);
             if(petImgUpload != null && !petImgUpload.isEmpty()) {
+            	//TODO:以后需要改的
                 String fileRealPath =  "E:\\GraduateProject\\Shopping\\Shopping\\src\\main\\webapp\\static\\img\\";
                 int id = petService.getPet(pname).getId();
                 String fileName = String.valueOf(id)+".jpg";

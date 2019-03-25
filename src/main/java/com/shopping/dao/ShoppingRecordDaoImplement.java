@@ -19,7 +19,7 @@ public class ShoppingRecordDaoImplement implements ShoppingRecordDao {
 
     @Override
     public ShoppingRecord getShoppingRecord(int userId, int productId,String time) {
-        String hql = "from ShoppingRecord where userId=? and productId=? and time=?";
+        String hql = "from ShoppingRecord where user_id=? and product_id=? and time=?";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter(0, userId);
         query.setParameter(1, productId);
@@ -34,23 +34,10 @@ public class ShoppingRecordDaoImplement implements ShoppingRecordDao {
 
     @Override
     public boolean deleteShoppingRecord(int userId, int productId) {
-        String hql = "delete ShoppingRecord where userId=? and productId=?";
+        String hql = "delete ShoppingRecord where user_id=? and product_id=?";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter(0, userId);
         query.setParameter(1, productId);
-        return query.executeUpdate() > 0;
-    }
-
-    @Override
-    public boolean updateShoppingRecord(ShoppingRecord shoppingRecord) {
-        String hql = "update ShoppingReocrd set orderStatus=? where userId=? and productId=? and time=?";
-        String sql = "update shopping_record set order_status="+shoppingRecord.getOrderStatus()+" where user_id="+shoppingRecord.getUserId()+" and product_id="+shoppingRecord.getProductId()+" and time='"+shoppingRecord.getTime()+"'";
-//        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-//        query.setParameter(0,shoppingRecord.getOrderStatus());
-//        query.setParameter(1,shoppingRecord.getUserId());
-//        query.setParameter(2,shoppingRecord.getProductId());
-//        query.setParameter(3,shoppingRecord.getTime());
-        Query query = sessionFactory.getCurrentSession().createSQLQuery(sql);
         return query.executeUpdate() > 0;
     }
 

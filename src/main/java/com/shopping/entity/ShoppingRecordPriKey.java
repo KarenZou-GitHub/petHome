@@ -2,28 +2,31 @@ package com.shopping.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+
 /**
  * Created by 14437 on 2017/3/3.
  */
 public class ShoppingRecordPriKey implements Serializable {
-    private int userId;
-    private int productId;
+    private int user_id;
+    private int product_id;
     private String time;
 
-    public int getUserId() {
-        return userId;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser_id(int userId) {
+        this.user_id = userId;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getProduct_id() {
+        return product_id;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct_id(int productId) {
+        this.product_id = productId;
     }
 
     public String getTime() {
@@ -41,16 +44,16 @@ public class ShoppingRecordPriKey implements Serializable {
 
         ShoppingRecordPriKey that = (ShoppingRecordPriKey) o;
 
-        if (getUserId() != that.getUserId()) return false;
-        if (getProductId() != that.getProductId()) return false;
+        if (getUser_id() != that.getUser_id()) return false;
+        if (getProduct_id() != that.getProduct_id()) return false;
         return getTime().equals(that.getTime());
 
     }
 
     @Override
     public int hashCode() {
-        int result = getUserId();
-        result = 31 * result + getProductId();
+        int result = getUser_id();
+        result = 31 * result + getProduct_id();
         result = 31 * result + getTime().hashCode();
         return result;
     }

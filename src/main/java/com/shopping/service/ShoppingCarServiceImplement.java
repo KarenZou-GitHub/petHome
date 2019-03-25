@@ -8,20 +8,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * ·½·¨
- * 1.Ìí¼Ó¹ºÎï³µ(shoppingcar)¡¢Ìí¼Ó¹ºÎï³µ£¨int£¬int£©
- * 2.»ñÈ¡¹ºÎï³µ(id)
- * 3.¸üÐÂ¹ºÎï³µ£¨shoppingcar£©
- * 4.É¾³ý¹ºÎï³µÄÚÑ¡Ïî£¨id, id£©
+ * ï¿½ï¿½ï¿½ï¿½
+ * 1.ï¿½ï¿½Ó¹ï¿½ï¿½ï³µ(shoppingcar)ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï³µï¿½ï¿½intï¿½ï¿½intï¿½ï¿½
+ * 2.ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï³µ(id)
+ * 3.ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï³µï¿½ï¿½shoppingcarï¿½ï¿½
+ * 4.É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï³µï¿½ï¿½Ñ¡ï¿½î£¨id, idï¿½ï¿½
  */
 @Service
 public class ShoppingCarServiceImplement implements ShoppingCarService {
     @Autowired
     private ShoppingCarDao shoppingCarDao;
-    @Override
-    public ShoppingCar getShoppingCar(int userId, int productId) {
-        return shoppingCarDao.getShoppingCar(userId,productId);
-    }
 
     @Override
     public void addShoppingCar(ShoppingCar shoppingCar) {
@@ -31,11 +27,6 @@ public class ShoppingCarServiceImplement implements ShoppingCarService {
     @Override
     public boolean deleteShoppingCar(int userId, int productId) {
         return shoppingCarDao.deleteShoppingCar(userId,productId);
-    }
-
-    @Override
-    public boolean updateShoppingCar(ShoppingCar shoppingCar) {
-        return shoppingCarDao.updateShoppingCar(shoppingCar);
     }
 
     @Override

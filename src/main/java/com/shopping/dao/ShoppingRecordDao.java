@@ -14,8 +14,6 @@ public interface ShoppingRecordDao {
 
     public boolean deleteShoppingRecord(int userId,int productId);
 
-    public boolean updateShoppingRecord(ShoppingRecord shoppingRecord);
-
     public List<ShoppingRecord> getShoppingRecords(int userId);
 
     public List<ShoppingRecord> getAllShoppingRecords();

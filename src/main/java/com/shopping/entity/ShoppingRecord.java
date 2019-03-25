@@ -1,42 +1,42 @@
 package com.shopping.entity;
 
+import java.sql.Date;
+
 import javax.persistence.*;
 
-/**
- * Created by 14437 on 2017/3/3.
- */
 @Entity
 @Table(name="shopping_record")
 @IdClass(value=ShoppingRecordPriKey.class)
 public class ShoppingRecord {
-    private int userId;
-    private int productId;
+    private int user_id;
+    private int product_id;
     private String time;
-    private int orderStatus;
-    private int productPrice;
+    private int type;
+    private String product_name;
+    private int product_price;
     private int counts;
 
     @Id
     @Column(name="user_id")
-    public int getUserId() {
-        return userId;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser_id(int userId) {
+        this.user_id = userId;
     }
 
-    @Id
+    
     @Column(name="product_id")
-    public int getProductId() {
-        return productId;
+    public int getProduct_id() {
+        return product_id;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct_id(int productId) {
+        this.product_id = productId;
     }
-
-    @Id
+    
+    
     @Column(name="time")
     public String getTime() {
         return time;
@@ -45,23 +45,32 @@ public class ShoppingRecord {
     public void setTime(String time) {
         this.time = time;
     }
+    
+    @Column(name="type")
+    public int getType() {
+		return type;
+	}
 
-    @Column(name="order_status")
-    public int getOrderStatus() {
-        return orderStatus;
+	public void setType(int type) {
+		this.type = type;
+	}
+
+    @Column(name="product_name")
+    public String getProduct_name() {
+        return product_name;
     }
 
-    public void setOrderStatus(int orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setProduct_name(String productName) {
+        this.product_name = productName;
     }
 
     @Column(name="product_price")
-    public int getProductPrice() {
-        return productPrice;
+    public int getProduct_price() {
+        return product_price;
     }
 
-    public void setProductPrice(int productPrice) {
-        this.productPrice = productPrice;
+    public void setProduct_price(int productPrice) {
+        this.product_price = productPrice;
     }
 
     @Column(name="counts")

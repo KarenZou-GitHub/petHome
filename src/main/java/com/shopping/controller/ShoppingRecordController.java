@@ -33,30 +33,19 @@ public class ShoppingRecordController {
     @Resource
     private ShoppingRecordService shoppingRecordService;
 
-    /*空方法*/
-    @RequestMapping(value = "/shopping_record")
-    public String shopping_record(){
-        return "shopping_record";
-    }
-    /*空方法*/
-    @RequestMapping(value = "/shopping_handle")
-    public String shopping_handle(){
-        return "shopping_handle";
-    }
-
     @RequestMapping(value = "/addShoppingRecord",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> addShoppingRecord(int userId,int productId,int counts){
-        System.out.println("鎴戞坊鍔犱簡"+userId+" "+productId);
-        String result = null;
+    public Map<String,Object> addShoppingRecord(int type,int userId,int productId,int counts){
+        String result = "false";
         Product product = productService.getProduct(productId);
         if(counts<=product.getCounts()) {
             ShoppingRecord shoppingRecord = new ShoppingRecord();
-            shoppingRecord.setUserId(userId);
-            shoppingRecord.setProductId(productId);
-            shoppingRecord.setProductPrice(product.getPrice() * counts);
+            shoppingRecord.setType(type);
+            shoppingRecord.setUser_id(userId);
+            shoppingRecord.setProduct_id(productId);
+            shoppingRecord.setProduct_price(product.getPrice());
+            shoppingRecord.setProduct_name(product.getName());
             shoppingRecord.setCounts(counts);
-            shoppingRecord.setOrderStatus(0);
             Date date = new Date();
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
             shoppingRecord.setTime(sf.format(date));
@@ -73,21 +62,6 @@ public class ShoppingRecordController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/changeShoppingRecord",method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String,Object> changeShoppingRecord(int userId,int productId,String time,int orderStatus){
-        System.out.println("鎴戞帴鏀朵簡"+userId+" "+productId+" "+time+" "+orderStatus);
-        ShoppingRecord shoppingRecord = shoppingRecordService.getShoppingRecord(userId,productId,time);
-        System.out.println("鎴戣幏鍙栧埌浜嗕簡"+shoppingRecord.getTime());
-        shoppingRecord.setOrderStatus(orderStatus);
-        shoppingRecordService.updateShoppingRecord(shoppingRecord);
-
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result","success");
-        System.out.println("鎴戞垚鍔焒anhui浜�");
-        return resultMap;
-    }
-
     @RequestMapping(value = "/getShoppingRecords",method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> getShoppingRecords(int userId){
@@ -98,38 +72,13 @@ public class ShoppingRecordController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/getShoppingRecordsByOrderStatus",method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String,Object> getShoppingRecordsByOrderStatus(int orderStatus){
-        List<ShoppingRecord> shoppingRecordList = shoppingRecordService.getShoppingRecordsByOrderStatus(orderStatus);
-        String shoppingRecords = JSONArray.toJSONString(shoppingRecordList);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",shoppingRecords);
-        return resultMap;
-    }
-
     @RequestMapping(value = "/getAllShoppingRecords",method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> getAllShoppingRecords(){
-//        System.out.println("wo鍦ㄨ繖閲宨");
         List<ShoppingRecord> shoppingRecordList = shoppingRecordService.getAllShoppingRecords();
         String shoppingRecords = JSONArray.toJSONString(shoppingRecordList);
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",shoppingRecords);
-//        System.out.println("鎴戝弽鎮斾簡"+shoppingRecords);
-        return resultMap;
-    }
-
-    /*空方法*/
-    @RequestMapping(value = "/getUserProductRecord",method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String,Object> getUserProductRecord(int userId,int productId){
-        String result = "false";
-        if(shoppingRecordService.getUserProductRecord(userId,productId)){
-            result = "true";
-        }
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
         return resultMap;
     }
 }

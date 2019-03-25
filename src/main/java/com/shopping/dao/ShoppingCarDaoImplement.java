@@ -18,15 +18,6 @@ public class ShoppingCarDaoImplement implements ShoppingCarDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public ShoppingCar getShoppingCar(int userId, int productId) {
-        String hql = "from ShoppingCar where userId=? and productId=?";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter(0, userId);
-        query.setParameter(1, productId);
-        return (ShoppingCar) query.uniqueResult();
-    }
-
-    @Override
     public void addShoppingCar(ShoppingCar shoppingCar) {
         sessionFactory.getCurrentSession().save(shoppingCar);
     }
@@ -37,17 +28,6 @@ public class ShoppingCarDaoImplement implements ShoppingCarDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter(0, userId);
         query.setParameter(1, productId);
-        return query.executeUpdate() > 0;
-    }
-
-    @Override
-    public boolean updateShoppingCar(ShoppingCar shoppingCar) {
-        String hql = "update ShoppingCar set productPrice=?,counts=? where userId=? and productId=?";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter(0,shoppingCar.getProductPrice());
-        query.setParameter(1,shoppingCar.getCounts());
-        query.setParameter(2,shoppingCar.getUserId());
-        query.setParameter(3,shoppingCar.getProductId());
         return query.executeUpdate() > 0;
     }
 

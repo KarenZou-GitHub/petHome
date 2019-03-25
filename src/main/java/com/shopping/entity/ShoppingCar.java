@@ -2,45 +2,56 @@ package com.shopping.entity;
 
 import javax.persistence.*;
 
-/**
- * Created by 14437 on 2017/3/3.
- */
+
 @Entity
 @Table(name="shopping_car")
 @IdClass(value=ShoppingCarPriKey.class)
 public class ShoppingCar {
-    private int userId;
-    private int productId;
-    private int productPrice;
+	private int user_id;
+	private int product_id;
+	private int type;
     private int counts;
+    private String product_name;
+    private int product_price;
 
+  
     @Id
     @Column(name="user_id")
-    public int getUserId() {
-        return userId;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    @Id
+    
     @Column(name="product_id")
-    public int getProductId() {
-        return productId;
+    public int getProduct_id() {
+        return product_id;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
+    }
+    
+    
+    @Column(name="type")
+    public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	@Column(name="product_price")
+    public int getProduct_price() {
+        return product_price;
     }
 
-    @Column(name="product_price")
-    public int getProductPrice() {
-        return productPrice;
-    }
-
-    public void setProductPrice(int productPrice) {
-        this.productPrice = productPrice;
+    public void setProduct_price(int product_price) {
+        this.product_price = product_price;
     }
 
     @Column(name="counts")
@@ -50,5 +61,14 @@ public class ShoppingCar {
 
     public void setCounts(int counts) {
         this.counts = counts;
+    }
+    
+    @Column(name="product_name")
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 }
