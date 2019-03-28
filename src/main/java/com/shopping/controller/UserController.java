@@ -63,7 +63,7 @@ public class UserController {
         User user11 = userService.getUser(name);
         User user22 = userService.getUser(phoneNumber);
         if(user11 != null || user22!=null){
-        	 result = "nameOrEmailExist";
+        	 result = "nameOrPhoneExist";
         }else{
         	User user1 = new User();
             user1.setName(name);
