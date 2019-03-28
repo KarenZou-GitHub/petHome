@@ -30,11 +30,11 @@
       <version>1.2.2</version>
     </dependency>
 
-    <!--MySQL 5.1.38 换数据库需要替换为与你数据库对应的依赖-->
+    <!--MySQL 8.0.15 换数据库需要替换为与你数据库对应的依赖-->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.38</version>
+      <version>8.0.15</version>
     </dependency>
 
     <!--SpringMVC 4.3.5.RELEASE -->

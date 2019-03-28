@@ -16,7 +16,7 @@ import java.util.List;
  * 5.�����û���Ϣ��id��
  * 6.��ȡ�����û���Ϣ
  */
-@Service
+@Service("user")
 public class UserServiceImplement implements UserService {
 
     @Autowired
