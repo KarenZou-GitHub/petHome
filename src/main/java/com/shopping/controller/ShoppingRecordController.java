@@ -40,11 +40,14 @@ public class ShoppingRecordController {
     @RequestMapping(value = "/addShoppingRecord",method = RequestMethod.PUT)
     @ResponseBody
     public Map<String,Object> addShoppingRecord(int type,int userId,int productId,int counts){
-        String result = "false";
+    	Map<String,Object> resultMap = new HashMap<String,Object>();
+    	String result = "badRequest";
+        String code="500";
         if(type == 1){
 	        Product product = productService.getProduct(productId);
 	        if(product == null){
-	        	result="unexist";
+	        	result="unExistProduct";
+	        	code="2002";
 	        }else if(counts<=product.getCounts()) {
 	            ShoppingRecord shoppingRecord = new ShoppingRecord();
 	            shoppingRecord.setType(type);
@@ -63,9 +66,11 @@ public class ShoppingRecordController {
 		            productService.updateProduct(product);
 	            }
 	            shoppingRecordService.addShoppingRecord(shoppingRecord);
-	            result = "suppliesSuccess";
+	            result = "success";
+	            code="200";
 	        }else{
-	        	result = "unEnough";
+	        	result = "notEnough";
+	        	code="3006";
 	        }
         }else if(type == 0){
 	        Pet pet = petService.getPet(productId);
@@ -82,14 +87,16 @@ public class ShoppingRecordController {
 	            shoppingRecord.setTime(sf.format(date));
 	            petService.deletePet(productId);
 	            shoppingRecordService.addShoppingRecord(shoppingRecord);
-	            result = "petSuccess";
+	            result = "success";
+	            code="200";
 	        }
 	        else{
-	            result = "unEnough";
+	            result = "notEnough";
+	            code="3006";
 	        }
         }
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
 
@@ -99,7 +106,9 @@ public class ShoppingRecordController {
         List<ShoppingRecord> shoppingRecordList = shoppingRecordService.getShoppingRecords(userId);
         String shoppingRecords = JSONArray.toJSONString(shoppingRecordList);
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",shoppingRecords);
+        resultMap.put("shoppingRecords",shoppingRecords);
+        resultMap.put("msg","success");
+        resultMap.put("code", "200");
         return resultMap;
     }
 
@@ -107,24 +116,30 @@ public class ShoppingRecordController {
     @ResponseBody
     public Map<String,Object> getAllShoppingRecords(){
         List<ShoppingRecord> shoppingRecordList = shoppingRecordService.getAllShoppingRecords();
-        String shoppingRecords = JSONArray.toJSONString(shoppingRecordList);
+        String allShoppingRecords = JSONArray.toJSONString(shoppingRecordList);
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",shoppingRecords);
+        resultMap.put("allShoppingRecords",allShoppingRecords);
+        resultMap.put("msg","success");
+        resultMap.put("code", "200");
         return resultMap;
     }
     
     @RequestMapping(value = "/deleteShoppingRecord",method = RequestMethod.DELETE)
     @ResponseBody
     public Map<String,Object> deleteShoppingRecord(Integer id){
-    	String result = "fail";
+    	Map<String,Object> resultMap = new HashMap<String,Object>();
+    	String result = "badRequest";
+        String code="500";
         ShoppingRecord shoppingrecord = shoppingRecordService.getShoppingRecord(id);
         if(shoppingrecord == null){
-        	result = "unexist";	
+        	result = "unExistShoppingRecord";	
+        	code="4002";
         }else if(shoppingRecordService.deleteShoppingRecord(id)){
         	result="success";
+        	code="200";
         }
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
 }

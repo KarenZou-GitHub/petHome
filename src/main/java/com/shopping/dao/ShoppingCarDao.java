@@ -11,7 +11,7 @@ public interface ShoppingCarDao {
 
     public void addShoppingCar(ShoppingCar shoppingCar);
 
-    public boolean deleteShoppingCar(int userId,int productId);
+    public boolean deleteShoppingCar(int userId, int productId);
 
     public List<ShoppingCar> getShoppingCars(int userId);
 

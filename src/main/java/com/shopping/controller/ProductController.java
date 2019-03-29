@@ -58,6 +58,8 @@ public class ProductController {
         String allProducts = JSONArray.toJSONString(productList);
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("allproducts",allProducts);
+        resultMap.put("code","200");
+        resultMap.put("msg","success");
         return resultMap;
     }
 
@@ -65,14 +67,18 @@ public class ProductController {
     @RequestMapping(value = "/deleteProduct", method = RequestMethod.DELETE)
     @ResponseBody
     public Map<String, Object> deleteProduct(Integer id) {
-        String result ="null";
+    	String result = "badRequest";
+        String code="500";
         if(id == null){
-        	result="unexist";
+        	result="unExistUser";
+        	code="1002";
         }else if(productService.deleteProduct(id)){
             result="success";
+            code="200";
         }
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
 
@@ -80,11 +86,13 @@ public class ProductController {
     @ResponseBody
     public Map<String, Object> addProduct(String name,String description,String keyWord,Integer price,Integer counts,Integer type,String img,Integer relateproduct_id) {
         pname=name;
-        String result ="fail";
+    	String result = "badRequest";
+        String code="500";
         Product product1 = productService.getProduct(name);
         
         if(product1 != null){
         	result = "nameExsit";
+        	code="2000";
         }else{
 	        Product product = new Product();
 	        product.setName(name);
@@ -97,9 +105,11 @@ public class ProductController {
 	        product.setRelateproduct_id((int)relateproduct_id);
 	        productService.addProduct(product);
 	        result = "success";
+	        code="200";
         }
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code",code);
         return resultMap;
     }
 
@@ -107,45 +117,31 @@ public class ProductController {
     @RequestMapping(value = "/getProductById", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getProductById(Integer id) {
+    	Map<String,Object> resultMap = new HashMap<String,Object>();
         Product product = productService.getProduct(id);
-        String result="fail";
+    	String result = "badRequest";
+        String code="500";
         if(product == null){
-        	result = "unexist";
+        	result = "unExistProduct";
+        	code="2002";
         }else{
-	        result = JSON.toJSONString(product);
+	        String productstr = JSON.toJSONString(product);
+	        resultMap.put("product",productstr);
+	        result="success";
+	        code="200";
         }
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
-
-/*    @RequestMapping(value = "/searchPre", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String,Object> searchPre(String searchKeyWord,HttpSession httpSession) {
-        httpSession.setAttribute("searchKeyWord",searchKeyWord);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result","success");
-        return resultMap;
-    }
-
-    @RequestMapping(value = "/searchProduct", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String,Object> searchProduct(String searchKeyWord){
-        System.out.println("鎴戝埌浜哠earchProduct"+searchKeyWord);
-        List<Product> productList = new ArrayList<Product>();
-        productList = productService.getProductsByKeyWord(searchKeyWord);
-        String searchResult = JSONArray.toJSONString(productList);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",searchResult);
-        System.out.println("鎴戣繑鍥炰簡"+searchResult);
-        return resultMap;
-    }*/
 
 
     @RequestMapping(value = "/uploadProductImg", method = RequestMethod.PUT)
     @ResponseBody
     public Map<String, Object> uploadProductFile(@RequestParam MultipartFile productImgUpload,String name, HttpServletRequest request) {
-        String result = "fail";
+    	String result = "badRequest";
+        String code="500";
         try{
             System.out.println(pname+"shagnp"+name);
             if(productImgUpload != null && !productImgUpload.isEmpty()) {
@@ -160,151 +156,16 @@ public class ProductController {
                 File file = new File(fileFolder,fileName);
                 productImgUpload.transferTo(file);
                 result = "success";
+                code="200";
             }
         }catch(Exception e){
             e.printStackTrace();
         }
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
     
-    
-    
-
-  /*  //没用到。不过这么复杂可以留着参考
-   @RequestMapping(value = "/getAllProductsandRecomand")
-    @ResponseBody
-    public Map<String,Object> getAllProductsandRecomand(int userId){*/
-	   /*System.out.println("鐢ㄦ埛鐨刬d锛�"+userId);
-        List<Product> productList = new ArrayList<>();
-        List<Product> productTem = new ArrayList<>();
-        List<Product> productRcommand = new ArrayList<>();
-        productList = productService.getAllProduct();
-
-        if (userId!=0) {
-            List<ShoppingCar> shoppingCarList = shoppingCarService.getShoppingCars(userId);
-            List<ShoppingRecord> shoppingRecordList = shoppingRecordService.getShoppingRecords(userId);
-
-            if (shoppingCarList.size()>0){
-                Product pp = productService.getProduct(shoppingCarList.get(0).getProductId());
-                productRcommand.add(pp);
-            }
-            if (shoppingRecordList.size()>0&&shoppingCarList.size()<0){
-                Product pp = productService.getProduct(shoppingRecordList.get(0).getProductId());
-                productRcommand.add(pp);
-            }else if (shoppingRecordList.size()>0&&shoppingCarList.size()>0){
-                if (shoppingCarList.get(0).getProductId()!=shoppingRecordList.get(0).getProductId()){
-                    Product pp = productService.getProduct(shoppingRecordList.get(0).getProductId());
-                    productRcommand.add(pp);
-                }else if (shoppingRecordList.size()>1){
-                    Product pp = productService.getProduct(shoppingRecordList.get(1).getProductId());
-                    productRcommand.add(pp);
-                }
-            }
-            if (productRcommand.size()>0){
-                for (int i=0;i<productRcommand.size();i++){
-                    String namet=productRcommand.get(i).getName();
-                    String namee=namet;
-                    if (namet.length()>3){
-                         namee=namet.substring(0,3);
-                    }else {
-                         namee=namet;
-                    }
-
-                    String descrip=productRcommand.get(i).getDescription().split(",")[0];
-                    int typee=productRcommand.get(i).getType();
-                    String words=productRcommand.get(i).getKeyWord().split(";")[0];
-
-                    List<Product> ppt =productService.getProductsByType(typee);
-                    if (ppt.size()>0){
-
-                        Product ppv=ppt.get(0);
-                        if (ppv!=null&&ppv.getName()!=null&&!ppv.getName().equals("")) {
-                            ppv.setType(8);
-                            productTem.add(ppv);
-                        }
-                    }
-                    List<Product> ppw =productService.getProductsByKeyWord(""+words);
-                    if (ppw.size()>0){
-                        Product ppv=ppw.get(0);
-                        if (ppv!=null&&ppv.getName()!=null&&!ppv.getName().equals("")) {
-                            ppv.setType(8);
-                            productTem.add(ppv);
-                        }
-                    }
-                    Product ppn =productService.getProduct(""+namee);
-                    if (ppn!=null&&ppn.getName()!=null&&!ppn.getName().equals("")){
-                        Product ppv=ppn;
-                        if (ppv!=null&&ppv.getName()!=null&&!ppv.getName().equals("")) {
-                            ppv.setType(8);
-                            productTem.add(ppv);
-                        }
-                    }
-                    List<Product> ppd =productService.getProductsByKeyWord(""+descrip);
-                    if (ppd.size()>0){
-                        Product ppv=ppd.get(0);
-                        if (ppv!=null&&ppv.getName()!=null&&!ppv.getName().equals("")) {
-                            ppv.setType(8);
-                            productTem.add(ppv);
-                        }
-                    }
-                }
-            }
-            int popul[]=new int[9];
-            for (int i=0;i<popul.length;i++){
-                popul[i]=0;
-            }
-            for (int j=0;j<productList.size();j++){
-                if (productList.get(j).getType()==1){
-                    popul[0]+=1;
-                }else if (productList.get(j).getType()==2){
-                    popul[1]+=1;
-                }else if (productList.get(j).getType()==3){
-                    popul[2]+=1;
-                }else if (productList.get(j).getType()==4){
-                    popul[3]+=1;
-                }else if (productList.get(j).getType()==5){
-                    popul[4]+=1;
-                }else if (productList.get(j).getType()==6){
-                    popul[5]+=1;
-                }else if (productList.get(j).getType()==7){
-                    popul[6]+=1;
-                }
-            }
-            int tag=0;
-            for (int n=0;n<7;n++){
-                if (popul[n]>=tag){
-                    tag=n;
-                }
-            }
-            Product popluar=null;
-            for (int h=0;h<productList.size();h++){
-                if (productList.get(h).getType()==tag){
-                    Product pt=productList.get(h);
-                    boolean tt=false;
-                    for (int r=0;r<productTem.size();r++){
-                        if (productTem.get(r).getId()!=pt.getId()){
-                            tt=true;
-                            popluar=pt;
-                            break;
-                        }
-                    }
-                }
-            }
-            for (int u=0;u<productTem.size();u++){
-                productList.add(productTem.get(u));
-            }
-            if (popluar!=null&&popluar.getName()!=null){
-                productList.add(popluar);
-            }
-        }
-        String allProducts = JSONArray.toJSONString(productList);*/
-/*        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("allProducts",allProducts);
-        resultMap.put("allProducts","");
-        return resultMap;
-    }*/
-
 }
 

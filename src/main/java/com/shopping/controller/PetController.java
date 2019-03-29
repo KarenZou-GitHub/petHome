@@ -55,20 +55,26 @@ public class PetController {
         String allPets = JSONArray.toJSONString(petList);
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("allPets",allPets);
+        resultMap.put("msg", "success");
+        resultMap.put("code", "200");
         return resultMap;
     }
     
     @RequestMapping(value = "/deletePet", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deletePet(Integer id) {
-        String result ="fail";
+    	String result = "badRequest";
+        String code="500";
         if(petService.deletePet(id)){
             result="success";
+            code="200";
         }else{
-        	result="unexist";
+        	result="unExistProduct";
+        	code="2002";
         }
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
 
@@ -78,9 +84,11 @@ public class PetController {
         System.out.println("petname:"+name);
         pname=name;
         Pet pet11 = petService.getPet(name);
-        String result ="fail";
+    	String result = "badRequest";
+        String code="500";
         if(pet11 != null){
         	result = "nameExist";
+        	code="2000";
         }else{
 	        Pet pet = new Pet();
 	        pet.setType(type);
@@ -95,9 +103,11 @@ public class PetController {
 	        pet.setRelateproduct_id(relateproduct_id);
 	        petService.addpet(pet);
 	        result = "success";
+	        code="200";
         }
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
  
@@ -105,34 +115,30 @@ public class PetController {
     @RequestMapping(value = "/getPetById", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getPetById(Integer id) {
-    	String result = "fail";
+    	Map<String,Object> resultMap = new HashMap<String,Object>();
+    	String result = "badRequest";
+        String code="500";
     	if(id == null){
-    		result = "null";
+    		result = "wrongParam";
+    		code="2001";
     	}else{
     		Pet pet = petService.getPet(id);
     		if(pet == null){
-    			result = "unexist";
+    			result = "unExistProduct";
+    			code="2002";
     		}else{
-    			result = JSON.toJSONString(pet);
+    			String petstr = JSON.toJSONString(pet);
+    			resultMap.put("pet",petstr);
+    			result="success";
+    			code="200";
     		}
     	}
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
 
 
-/*    @RequestMapping(value = "/searchPet", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String,Object> searchPet(String searchKeyWord){
-        List<Pet> petList = new ArrayList<Pet>();
-        petList = petService.getPetsByKeyWord(searchKeyWord);
-        String searchResult = JSONArray.toJSONString(petList);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",searchResult);
-        return resultMap;
-    }*/
-    
     @RequestMapping(value = "/getPetsByType", method = RequestMethod.GET)
     @ResponseBody
 	public List<Pet> getPetsByType(int type) {
@@ -145,11 +151,13 @@ public class PetController {
     @RequestMapping(value = "/uploadPetImg", method = RequestMethod.PUT)
     @ResponseBody	
     public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUpload,String name, HttpServletRequest request) {
-        String result = "fail";
+    	Map<String,Object> resultMap = new HashMap<String,Object>();
+    	String result = "badRequest";
+        String code="500";
         try{
             System.out.println(pname+"shagnp"+name);
             if(petImgUpload != null && !petImgUpload.isEmpty()) {
-            	//TODO:以后需要改的
+            	//TODO:路径是以后需要改的
                 String fileRealPath =  "E:\\GraduateProject\\Shopping\\Shopping\\src\\main\\webapp\\static\\img\\";
                 int id = petService.getPet(pname).getId();
                 String fileName = String.valueOf(id)+".jpg";
@@ -161,12 +169,13 @@ public class PetController {
                 File file = new File(fileFolder,fileName);
                 petImgUpload.transferTo(file);
                 result = "success";
+                code="200";
             }
         }catch(Exception e){
             e.printStackTrace();
         }
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
 	

@@ -34,25 +34,32 @@ public class CommentController {
         String allComments = JSONArray.toJSONString(commentList);
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("allComments",allComments);
+        resultMap.put("msg", "success");
+        resultMap.put("code", "200");
         return resultMap;
     }
     
     @RequestMapping(value = "/deleteComment", method = RequestMethod.DELETE)
     @ResponseBody
     public Map<String, Object> deleteComment(int id) {
-        String result ="fail";
+    	Map<String,Object> resultMap = new HashMap<String,Object>();
+    	String result = "badRequest";
+        String code="500";
         if(commentservice.deleteComment(id)){
             result="success";
+            code="200";
         }
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
 
     @RequestMapping(value = "/addComment", method = RequestMethod.PUT)
     @ResponseBody
     public Map<String, Object> addComment(Integer user_id,Integer post_id,String content) {
-        String result ="fail";
+    	Map<String,Object> resultMap = new HashMap<String,Object>();
+    	String result = "badRequest";
+        String code="500";
         Comment comment = new Comment();
         comment.setUser_id(user_id);
         comment.setPost_id(post_id);
@@ -63,8 +70,9 @@ public class CommentController {
 
         commentservice.addComment(comment);
         result = "success";
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("result",result);
+        code = "200";
+        resultMap.put("msg",result);
+        resultMap.put("code", code);
         return resultMap;
     }
     
@@ -72,9 +80,11 @@ public class CommentController {
     @ResponseBody
     public Map<String, Object> getCommentById(int id) {
         Comment comment = commentservice.getComment(id);
-        String result = JSON.toJSONString(comment);
+        String commentstr = JSON.toJSONString(comment);
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("comment",result);
+        resultMap.put("comment",commentstr);
+        resultMap.put("msg", "success");
+        resultMap.put("code", "200");
         return resultMap;
     }
     
