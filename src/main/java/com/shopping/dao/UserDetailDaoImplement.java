@@ -8,14 +8,6 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * 方法：
- * 1.获取用户详细信息（id）
- * 2.增加用户详细信息（userdetail）
- * 3.删除用户详细（id）
- * 4.更新用户详细信息（userdetail）
- * 5.获取所有用户信息
- */
 @Repository
 public class UserDetailDaoImplement implements UserDetailDao{
 

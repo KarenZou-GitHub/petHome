@@ -57,18 +57,18 @@ public class UserController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/doRegister", method = RequestMethod.POST)
+    @PostMapping(value = "/doRegister")
     @ResponseBody
     public Map<String, Object> doRegister(String name, String password, String head, String phoneNumber, String email, String address) {
 
         String result = "badRequest";
-        String code = "500";
+        Integer code = 201;
 
         User user11 = userService.getUser(name);
         User user22 = userService.getUser(phoneNumber);
         if (user11 != null || user22 != null) {
             result = "nameOrPhoneExist";
-            code = "1000";
+            code = 1000;
         } else {
             User user1 = new User();
             user1.setName(name);
@@ -80,7 +80,7 @@ public class UserController {
             user1.setRole(0);
             userService.addUser(user1);
             result = "success";
-            code = "200";
+            code = 200;
         }
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -93,13 +93,13 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> doUpdate(int id, String name, String email, String head, String password, String phoneNumber, String address) {
         String result = "badRequest";
-        String code = "500";
+        Integer code = 202;
 
         User user = userService.getUser(id);
         User user1 = userService.getUser(phoneNumber);
         if (user1.getId() != user.getId()) {
             result = "phoneExist";
-            code = "1004";
+            code = 1004;
         } else {
             user.setEmail(email);
             user.setHead(head);
@@ -108,7 +108,7 @@ public class UserController {
             user.setPhoneNumber(phoneNumber);
             userService.updateUser(user);
             result = "success";
-            code = "200";
+            code = 200;
         }
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("msg", result);
@@ -121,11 +121,10 @@ public class UserController {
     public Map<String, Object> getAllUser() {
         List<User> userList = new ArrayList<>();
         userList = userService.getAllUser();
-        String allUsers = JSONArray.toJSONString(userList);
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("allUsers", allUsers);
+        resultMap.put("data", userList);
         resultMap.put("msg", "success");
-        resultMap.put("code", "200");
+        resultMap.put("code", 200);
         return resultMap;
     }
 
@@ -133,13 +132,13 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> deleteUser(Integer id) {
         String result = "badRequest";
-        String code = "500";
+        Integer code = 202;
         if (id == null) {
             result = "unExistUser";
-            code = "1002";
+            code = 1002;
         } else if (userService.deleteUser(id)) {
             result = "success";
-            code = "200";
+            code = 200;
         }
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("msg", result);
@@ -154,15 +153,17 @@ public class UserController {
 
         if (id == null) {
             resultMap.put("msg", "unExistUser");
-            resultMap.put("code", "1002");
+            resultMap.put("code", 1002);
             return resultMap;
         } else {
             String address = userService.getUser(id).getAddress();
             String phoneNumber = userService.getUser(id).getPhoneNumber();
-            resultMap.put("address", address);
-            resultMap.put("phoneNumber", phoneNumber);
+            Map<String, Object> userInfo = new HashMap<String, Object>();
+            userInfo.put("address", address);
+            userInfo.put("phoneNumber", phoneNumber);
+            resultMap.put("data", userInfo);
             resultMap.put("msg", "success");
-            resultMap.put("code", "200");
+            resultMap.put("code", 200);
             return resultMap;
         }
     }
@@ -172,7 +173,7 @@ public class UserController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         httpSession.setAttribute("currentUser", "");
         resultMap.put("msg", "success");
-        resultMap.put("code", "200");
+        resultMap.put("code", 200);
         return resultMap;
     }
 
@@ -182,15 +183,25 @@ public class UserController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         if (id == null) {
             resultMap.put("msg", "unExsitUser");
-            resultMap.put("code", "1002");
+            resultMap.put("code", 1002);
         } else {
             User user = userService.getUser(id);
             String userstr = JSON.toJSONString(user);
-            resultMap.put("user", userstr);
+            resultMap.put("data", userstr);
             resultMap.put("msg", "success");
-            resultMap.put("code", "200");
+            resultMap.put("code", 200);
         }
         return resultMap;
     }
 
+    @GetMapping(value = "/getUserInfo")
+    @ResponseBody
+    public Map<String, Object> getUserInfo(HttpSession httpSession) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Object currentUser = httpSession.getAttribute("currentUser");
+        resultMap.put("msg", "'success'");
+        resultMap.put("data", currentUser);
+        resultMap.put("code", 200);
+        return resultMap;
+    }
 }
