@@ -1,0 +1,26 @@
+200 success
+404 notfound
+201 badRequest
+
+用户
+1000 nameOrPhoneExit
+1001 参数格式错误
+1002 unExistUser
+1003 wrongPassword
+1004 phoneExist
+
+商品
+2000 nameExist
+2001 wrongParam
+2002 unExistProduct
+
+购物车
+3002 unExistShoppingCar
+3005 failUpdate  添加购物车，购物车减一都需要更新购物车，更新失败
+3006 notEnough
+
+购物记录
+4002 unExistShoppingRecord
+
+
+ 

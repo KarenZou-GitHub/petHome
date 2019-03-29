@@ -123,26 +123,27 @@
                 url : '/Shopping/doLogin',
                 data : user,
                 dataType : 'json',
-                success : function(result) {
-                    loginResult = result.result;
+                success : function(res) {
+                    loginResult = res.code;
                     layer.close(loading);
                 },
                 error : function(result) {
                     layer.alert('查询用户错误');
+                    layer.close(loading);
                 }
             });
 
-            if(loginResult == 'success'){
+            if(loginResult == 200){
                 layer.msg('登录成功',{icon:1});
                 window.location.href = "/Shopping/main";
             }
-            else if(loginResult == 'unexist'){
+            else if(loginResult == 1002){
                 layer.msg('是不是用户名记错了？',{icon:2});
             }
-            else if(loginResult == 'wrong'){
+            else if(loginResult == 1003){
                 layer.msg('密码不对哦，再想想~',{icon:2});
             }
-            else if(loginResult == 'fail'){
+            else if(loginResult == 201){
                 layer.msg('服务器异常',{icon:2});
             }
 

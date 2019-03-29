@@ -38,7 +38,7 @@ import com.shopping.service.ShoppingRecordService;
 
 @Controller
 public class PetController {
-	private static String pname="";
+    private static String pname = "";
 
     @Resource
     private ShoppingCarService shoppingCarService;
@@ -46,94 +46,93 @@ public class PetController {
     private ShoppingRecordService shoppingRecordService;
     @Resource
     private PetService petService;
-    
+
     @RequestMapping(value = "/getAllPets")
     @ResponseBody
-    public Map<String,Object> getAllPets(){
+    public Map<String, Object> getAllPets() {
         List<Pet> petList = new ArrayList<>();
         petList = petService.getAllPet();
-        String allPets = JSONArray.toJSONString(petList);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("allPets",allPets);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("data", petList);
         resultMap.put("msg", "success");
-        resultMap.put("code", "200");
+        resultMap.put("code", 200);
         return resultMap;
     }
-    
+
     @RequestMapping(value = "/deletePet", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deletePet(Integer id) {
-    	String result = "badRequest";
-        String code="500";
-        if(petService.deletePet(id)){
-            result="success";
-            code="200";
-        }else{
-        	result="unExistProduct";
-        	code="2002";
+        String result = "badRequest";
+        String code = "500";
+        if (petService.deletePet(id)) {
+            result = "success";
+            code = "200";
+        } else {
+            result = "unExistProduct";
+            code = "2002";
         }
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("msg",result);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("msg", result);
         resultMap.put("code", code);
         return resultMap;
     }
 
     @RequestMapping(value = "/addPet", method = RequestMethod.PUT)
     @ResponseBody
-    public Map<String, Object> addPet(int type,String name,Date birthday,String breed,String color, String nature,String description,String img, Integer price, Integer relateproduct_id) {
-        System.out.println("petname:"+name);
-        pname=name;
+    public Map<String, Object> addPet(int type, String name, Date birthday, String breed, String color, String nature, String description, String img, Integer price, Integer relateproduct_id) {
+        System.out.println("petname:" + name);
+        pname = name;
         Pet pet11 = petService.getPet(name);
-    	String result = "badRequest";
-        String code="500";
-        if(pet11 != null){
-        	result = "nameExist";
-        	code="2000";
-        }else{
-	        Pet pet = new Pet();
-	        pet.setType(type);
-	        pet.setName(name);
-	        pet.setBirthday(birthday);
-	        pet.setBreed(breed);
-	        pet.setColor(color);
-	        pet.setNature(nature);
-	        pet.setDescription(description);
-	        pet.setPrice(price);
-	        pet.setImg(img);
-	        pet.setRelateproduct_id(relateproduct_id);
-	        petService.addpet(pet);
-	        result = "success";
-	        code="200";
+        String result = "badRequest";
+        String code = "500";
+        if (pet11 != null) {
+            result = "nameExist";
+            code = "2000";
+        } else {
+            Pet pet = new Pet();
+            pet.setType(type);
+            pet.setName(name);
+            pet.setBirthday(birthday);
+            pet.setBreed(breed);
+            pet.setColor(color);
+            pet.setNature(nature);
+            pet.setDescription(description);
+            pet.setPrice(price);
+            pet.setImg(img);
+            pet.setRelateproduct_id(relateproduct_id);
+            petService.addpet(pet);
+            result = "success";
+            code = "200";
         }
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("msg",result);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("msg", result);
         resultMap.put("code", code);
         return resultMap;
     }
- 
-  
+
+
     @RequestMapping(value = "/getPetById", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getPetById(Integer id) {
-    	Map<String,Object> resultMap = new HashMap<String,Object>();
-    	String result = "badRequest";
-        String code="500";
-    	if(id == null){
-    		result = "wrongParam";
-    		code="2001";
-    	}else{
-    		Pet pet = petService.getPet(id);
-    		if(pet == null){
-    			result = "unExistProduct";
-    			code="2002";
-    		}else{
-    			String petstr = JSON.toJSONString(pet);
-    			resultMap.put("pet",petstr);
-    			result="success";
-    			code="200";
-    		}
-    	}
-        resultMap.put("msg",result);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String result = "badRequest";
+        String code = "500";
+        if (id == null) {
+            result = "wrongParam";
+            code = "2001";
+        } else {
+            Pet pet = petService.getPet(id);
+            if (pet == null) {
+                result = "unExistProduct";
+                code = "2002";
+            } else {
+                String petstr = JSON.toJSONString(pet);
+                resultMap.put("pet", petstr);
+                result = "success";
+                code = "200";
+            }
+        }
+        resultMap.put("msg", result);
         resultMap.put("code", code);
         return resultMap;
     }
@@ -141,44 +140,43 @@ public class PetController {
 
     @RequestMapping(value = "/getPetsByType", method = RequestMethod.GET)
     @ResponseBody
-	public List<Pet> getPetsByType(int type) {
-		// TODO Auto-generated method stub
-		return petService.getPetsByType(type);
-		//这个是随便写写的
-	} 
+    public List<Pet> getPetsByType(int type) {
+        // TODO Auto-generated method stub
+        return petService.getPetsByType(type);
+        //这个是随便写写的
+    }
 
-    
+
     @RequestMapping(value = "/uploadPetImg", method = RequestMethod.PUT)
-    @ResponseBody	
-    public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUpload,String name, HttpServletRequest request) {
-    	Map<String,Object> resultMap = new HashMap<String,Object>();
-    	String result = "badRequest";
-        String code="500";
-        try{
-            System.out.println(pname+"shagnp"+name);
-            if(petImgUpload != null && !petImgUpload.isEmpty()) {
-            	//TODO:路径是以后需要改的
-                String fileRealPath =  "E:\\GraduateProject\\Shopping\\Shopping\\src\\main\\webapp\\static\\img\\";
+    @ResponseBody
+    public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUpload, String name, HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String result = "badRequest";
+        String code = "500";
+        try {
+            System.out.println(pname + "shagnp" + name);
+            if (petImgUpload != null && !petImgUpload.isEmpty()) {
+                //TODO:路径是以后需要改的
+                String fileRealPath = "E:\\GraduateProject\\Shopping\\Shopping\\src\\main\\webapp\\static\\img\\";
                 int id = petService.getPet(pname).getId();
-                String fileName = String.valueOf(id)+".jpg";
+                String fileName = String.valueOf(id) + ".jpg";
                 File fileFolder = new File(fileRealPath);
-                System.out.println("fileRealPath=" + fileRealPath+"\\"+fileName);
-                if(!fileFolder.exists()){
+                System.out.println("fileRealPath=" + fileRealPath + "\\" + fileName);
+                if (!fileFolder.exists()) {
                     fileFolder.mkdirs();
                 }
-                File file = new File(fileFolder,fileName);
+                File file = new File(fileFolder, fileName);
                 petImgUpload.transferTo(file);
                 result = "success";
-                code="200";
+                code = "200";
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        resultMap.put("msg",result);
+        resultMap.put("msg", result);
         resultMap.put("code", code);
         return resultMap;
     }
-	
-		
-	
+
+
 }
