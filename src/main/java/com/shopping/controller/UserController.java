@@ -168,7 +168,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/doLogout")
+    @PostMapping(value = "/doLogout")
     public Map<String, Object> doLogout(HttpSession httpSession) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         httpSession.setAttribute("currentUser", "");
@@ -199,9 +199,14 @@ public class UserController {
     public Map<String, Object> getUserInfo(HttpSession httpSession) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Object currentUser = httpSession.getAttribute("currentUser");
-        resultMap.put("msg", "'success'");
-        resultMap.put("data", currentUser);
-        resultMap.put("code", 200);
+        if (null == currentUser) {
+            resultMap.put("msg", "user not login");
+            resultMap.put("code", 204);
+        } else {
+            resultMap.put("msg", "success");
+            resultMap.put("data", currentUser);
+            resultMap.put("code", 200);
+        }
         return resultMap;
     }
 }

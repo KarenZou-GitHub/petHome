@@ -7,17 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * 功能：
- * 1.获取商品信息（id）
- * 2.获取商品信息（string）
- * 3。增加商品（product）
- * 4.删除商品（product）
- * 5.更新商品信息（product）
- * 6.选择某关键词商品（string）
- * 7.选择某类型产品（typeint）
- */
-
 @Service
 public class ProductServiceImplement implements ProductService {
     @Autowired
