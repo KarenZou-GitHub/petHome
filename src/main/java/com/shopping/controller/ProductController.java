@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sun.rmi.runtime.Log;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -81,11 +80,11 @@ public class ProductController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/addProduct", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> addProduct(String name, String description, String keyWord, Integer price, Integer counts, Integer type, String img, Integer relateproduct_id) {
-        pname = name;
-        String result = "badRequest";
+        
+    	String result = "badRequest";
         String code = "500";
         Product product1 = productService.getProduct(name);
 
