@@ -166,6 +166,12 @@ public class ProductController {
         resultMap.put("code", code);
         return resultMap;
     }
+    
+
+    @RequestMapping(value = "/product_detail")
+    public String product_detail() {
+        return "product_detail";
+    }
 
 }
 
