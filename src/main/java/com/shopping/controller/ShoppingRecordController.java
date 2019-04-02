@@ -108,7 +108,7 @@ public class ShoppingRecordController {
     ///////////////////////////////   大佬这是我新加的list     ////////////////////////////////////////////////////////
     @RequestMapping(value = "/addShoppingRecordList", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addShoppingRecordList(String lists) {
+    public Map<String, Object> addShoppingRecordList(String lists, Integer userId) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         /*String shoppingRecords=(String)param.get("shoppingRecords");*/
         String result = "badRequest";
@@ -118,7 +118,7 @@ public class ShoppingRecordController {
         JSONArray ja = jsonlists.getJSONArray("data");
         for(int i=0; i<ja.size(); i++){
         	JSONObject jsoni = ja.getJSONObject(i); 
-        	resultMap = addShoppingRecord((int)jsoni.get("type"), (int)jsoni.get("userId"), (int)jsoni.get("productId"),(int)jsoni.get("counts"));
+        	resultMap = addShoppingRecord((int)jsoni.get("type"), userId, (int)jsoni.get("id"), (int)jsoni.get("count"));
         	if((String)resultMap.get("msg") != "success"){
                 return resultMap;
         	}
