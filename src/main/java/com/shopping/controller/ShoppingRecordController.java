@@ -108,7 +108,7 @@ public class ShoppingRecordController {
     ///////////////////////////////   大佬这是我新加的list     ////////////////////////////////////////////////////////
     @RequestMapping(value = "/addShoppingRecordList", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addShoppingRecordList(String lists, Integer userId) {
+    public Map<String, Object> addShoppingRecordList(Integer userId,String lists) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         /*String shoppingRecords=(String)param.get("shoppingRecords");*/
         String result = "badRequest";
