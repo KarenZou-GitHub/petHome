@@ -1,4 +1,5 @@
 package com.shopping.controller;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,26 +29,26 @@ public class PostController {
     @Resource
     private UserService userservice;
 
-    
+
     @RequestMapping(value = "/getAllPosts")
     @ResponseBody
-    public Map<String,Object> getAllProducts(){
+    public Map<String, Object> getAllProducts() {
         List<Post> postList = new ArrayList<>();
         postList = postService.getAllPosts();
         String allPosts = JSONArray.toJSONString(postList);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("allPosts",allPosts);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("allPosts", allPosts);
         resultMap.put("msg", "success");
         resultMap.put("code", 200);
         return resultMap;
     }
-    
+
     @RequestMapping(value = "/addPost", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addPost(int user_id,String title,String img,String content) {
-    	Map<String,Object> resultMap = new HashMap<String,Object>();
-    	String result = "badRequest";
-        int code=500;
+    public Map<String, Object> addPost(int user_id, String title, String img, String content) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String result = "badRequest";
+        int code = 500;
         User user = userservice.getUser(user_id);
         Post post = new Post();
         post.setUser_id(user_id);
@@ -60,37 +61,37 @@ public class PostController {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         post.setTime(sf.format(date));
         postService.addPost(post);
-        
+
         result = "success";
-        code=200;
-        resultMap.put("msg",result);
+        code = 200;
+        resultMap.put("msg", result);
         resultMap.put("code", code);
         return resultMap;
     }
-    
+
     @RequestMapping(value = "/deletePost", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deletePost(Integer id) {
-    	Map<String,Object> resultMap = new HashMap<String,Object>();
-    	String result = "badRequest";
-        int code=500;
-        if(postService.deletePost(id)){
-            result="success";
-            code=200;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String result = "badRequest";
+        int code = 500;
+        if (postService.deletePost(id)) {
+            result = "success";
+            code = 200;
         }
-        resultMap.put("msg",result);
+        resultMap.put("msg", result);
         resultMap.put("code", code);
         return resultMap;
     }
-    
+
     @RequestMapping(value = "/getPostById")
     @ResponseBody
     public Map<String, Object> getPostById(Integer id) {
         Post post = postService.getPost(id);
         String poststr = JSON.toJSONString(post);
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("post",poststr);
-        resultMap.put("msg","success");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("post", poststr);
+        resultMap.put("msg", "success");
         resultMap.put("code", 200);
         return resultMap;
     }
