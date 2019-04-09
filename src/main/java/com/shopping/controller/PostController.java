@@ -34,12 +34,11 @@ public class PostController {
 
     @RequestMapping(value = "/getAllPosts")
     @ResponseBody
-    public Map<String, Object> getAllProducts() {
+    public Map<String, Object> getAllPosts() {
         List<Post> postList = new ArrayList<>();
         postList = postService.getAllPosts();
-        String allPosts = JSONArray.toJSONString(postList);
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("allPosts", allPosts);
+        resultMap.put("data", postList);
         resultMap.put("msg", "success");
         resultMap.put("code", 200);
         return resultMap;
