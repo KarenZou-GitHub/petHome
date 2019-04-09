@@ -12,6 +12,7 @@ public class PostServiceImolement implements PostService {
 
 	@Autowired
 	private PostDao postdao;
+
 	@Override
 	public List<Post> getAllPosts() {
 		return postdao.getAllPosts();
@@ -42,4 +43,8 @@ public class PostServiceImolement implements PostService {
 		return postdao.getPost(name);
 	}
 
+	@Override
+	public Post getPostByUser(int userId) {
+		return postdao.getPostByUser(userId);
+	}
 }

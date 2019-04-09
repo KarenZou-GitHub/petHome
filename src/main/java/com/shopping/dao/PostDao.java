@@ -16,6 +16,8 @@ public interface PostDao {
 	
 	Post getPost(String name);
 
+	Post getPostByUser(int userId);
+
 	boolean updatePost(Post post);
 
 }

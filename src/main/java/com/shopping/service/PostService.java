@@ -12,7 +12,9 @@ public interface PostService {
 	boolean deletePost(int id);
 
 	Post getPost(int id);
-	
+
+	Post getPostByUser(int userId);
+
 	Post getPost(String name);
 	
     boolean updatePost(Post post);

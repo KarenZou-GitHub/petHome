@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,13 +47,13 @@ public class PostController {
 
     @RequestMapping(value = "/addPost", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addPost(int user_id, String title, String img, String content) {
+    public Map<String, Object> addPost(HttpSession session, String title, String img, String content) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
         int code = 500;
-        User user = userservice.getUser(user_id);
+        User user = (User) session.getAttribute("currentUser");
         Post post = new Post();
-        post.setUser_id(user_id);
+        post.setUser_id(user.getId());
         post.setImg(img);
         post.setUser_name(user.getName());
         post.setUser_head(user.getHead());
@@ -91,6 +93,18 @@ public class PostController {
         String poststr = JSON.toJSONString(post);
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("post", poststr);
+        resultMap.put("msg", "success");
+        resultMap.put("code", 200);
+        return resultMap;
+    }
+
+    @GetMapping("/getPostByUser")
+    @ResponseBody
+    public Map<String, Object> getPostByUser(HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+        Post post = postService.getPostByUser(user.getId());
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("data", post);
         resultMap.put("msg", "success");
         resultMap.put("code", 200);
         return resultMap;

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.shopping.entity.Pet;
 import com.shopping.entity.Product;
 import com.shopping.entity.ShoppingRecord;
+import com.shopping.entity.User;
 import com.shopping.service.PetService;
 import com.shopping.service.ProductService;
 import com.shopping.service.ShoppingRecordService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.json.JsonObject;
+import javax.servlet.http.HttpSession;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -130,8 +132,9 @@ public class ShoppingRecordController {
 
     @GetMapping(value = "/getShoppingRecords")
     @ResponseBody
-    public Map<String, Object> getShoppingRecords(int userId) {
-        List<ShoppingRecord> shoppingRecordList = shoppingRecordService.getShoppingRecords(userId);
+    public Map<String, Object> getShoppingRecords(HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+        List<ShoppingRecord> shoppingRecordList = shoppingRecordService.getShoppingRecords(user.getId());
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("data", shoppingRecordList);
         resultMap.put("msg", "success");
