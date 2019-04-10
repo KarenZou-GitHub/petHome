@@ -101,7 +101,7 @@ public class PostController {
     @ResponseBody
     public Map<String, Object> getPostByUser(HttpSession session) {
         User user = (User) session.getAttribute("currentUser");
-        Post post = postService.getPostByUser(user.getId());
+        List post = postService.getPostByUser(user.getId());
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("data", post);
         resultMap.put("msg", "success");

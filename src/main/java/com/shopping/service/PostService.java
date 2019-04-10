@@ -13,7 +13,7 @@ public interface PostService {
 
 	Post getPost(int id);
 
-	Post getPostByUser(int userId);
+	List<Post> getPostByUser(int userId);
 
 	Post getPost(String name);
 	

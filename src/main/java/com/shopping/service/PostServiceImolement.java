@@ -44,7 +44,7 @@ public class PostServiceImolement implements PostService {
 	}
 
 	@Override
-	public Post getPostByUser(int userId) {
+	public List<Post> getPostByUser(int userId) {
 		return postdao.getPostByUser(userId);
 	}
 }
