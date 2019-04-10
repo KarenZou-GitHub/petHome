@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="cp" value="${pageContext.request.contextPath}"/>
 <%@ page isELIgnored="false" %>
@@ -83,9 +83,9 @@
                     <hr/>
                     <h1><a name="section3">添加商品</a></h1>
                     <hr/>
-                    <div class="col-sm-offset-2 col-md-offest-2">
+                    <form class="col-sm-offset-2 col-md-offest-2">
                         <!-- 表单输入 -->
-                        <div  class="form-horizontal">
+                        <div class="form-horizontal">
                             <div class="form-group">
                                 <label for="productName" class="col-sm-2 col-md-2 control-label">商品名称</label>
                                 <div class="col-sm-6 col-md-6">
@@ -139,15 +139,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="productImgUpload" class="col-sm-2 col-md-2 control-label" accept="image/jpg">商品图片</label>
+                                <label for="productImgUploadInput" class="col-sm-2 col-md-2 control-label" accept="image/jpg">宠物图片</label>
                                 <div class="col-sm-6 col-md-6">
-                                    <input name="productImgUpload" type="file" accept="image/jpg"  id="productImgUpload"/>
+                                    <input name="productImgUploadInput" type="file" accept="image/jpg"  id="productImgUploadInput"/>
                                     <p class="help-block">上传的图片大小应为280*160大小的jpg格式的图片</p>
                                 </div>
-                                <%--<button class="btn btn-primary col-sm-2 col-md-2" onclick="fileUpload()">上传图片</button>--%>
+                                <!-- <button class="btn btn-primary col-sm-2 col-md-2" onclick="productFileUpload(1)">上传图片</button> -->
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-6" id="imgPreSee">
+                                <div class="col-sm-offset-2 col-sm-6" id="productImgPreSee">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -157,15 +157,14 @@
                             </div>
                         </div>
                         <br/>
-                    </div>
+                    </form>
                 </div>
 <!-- -----------------------------------添加宠物-------------------------------------------------------------------- -->
                 <div class="col-md-12">
                     <hr/>
                     <h1><a name="section4">添加宠物</a></h1>
                     <hr/>
-                    <div class="col-sm-offset-2 col-md-offest-2">
-                   
+                    <form class="col-sm-offset-2 col-md-offest-2" >
                         <!-- 表单输入 -->
                         <div  class="form-horizontal">
                             <div class="form-group">
@@ -265,15 +264,15 @@
                             </div>                                                        
 
                             <div class="form-group">
-                                <label for="petImgUpload" class="col-sm-2 col-md-2 control-label" accept="image/jpg">商品图片</label>
+                                <label for="petImgUploadInput" class="col-sm-2 col-md-2 control-label" accept="image/jpg">商品图片</label>
                                 <div class="col-sm-6 col-md-6">
-                                    <input name="productImgUpload" type="file" accept="image/jpg"  id="petImgUpload"/>
+                                    <input name="petImgUploadInput" type="file" accept="image/jpg"  id="petImgUploadInput"/>
                                     <p class="help-block">上传的图片大小应为280*160大小的jpg格式的图片</p>
                                 </div>
-                                <%--<button class="btn btn-primary col-sm-2 col-md-2" onclick="fileUpload()">上传图片</button>--%>
+                                <!-- <button class="btn btn-primary col-sm-2 col-md-2" onclick="productFileUpload(0)">上传图片</button> -->
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-6" id="imgPreSee">
+                                <div class="col-sm-offset-2 col-sm-6" id="petImgPreSee">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -283,7 +282,7 @@
                             </div>
                         </div>
                         <br/>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -364,8 +363,7 @@
             var html="";
             productArea.innerHTML = '';
             for(var i=0;i<allProduct.length;i++){
-                var imgURL = "/Shopping/img/"+allProduct[i].id+".jpg";
-                var imgURL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553062204983&di=d4e53b2574fe335e9d2e65ade071c833&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fpic%2F9%2Fd4%2F55461315482.jpg";
+                var imgURL = "/Shopping/img/supply/"+allProduct[i].name+".jpg";
                 html+='<div class="col-sm-4 col-md-4 pd-5">'+
                     '<div class="boxes">'+
                     '<div class="big bigimg">'+
@@ -414,8 +412,7 @@
             var html="";
             petArea.innerHTML = '';
             for(var i=0;i<allPet.length;i++){
-                /* var imgURL = "/Shopping/img/"+allProduct[i].id+".jpg"; */
-                var imgURL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553102698415&di=74e61c526cee2b1701df33ef8c2b8903&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201703%2F17%2F20170317182053_rEtiz.thumb.224_0.jpeg";
+            	var imgURL = "/Shopping/img/pet/" +allPet[i].name+".jpg";
                 html+='<div class="col-sm-4 col-md-4 pd-5">'+
                     '<div class="boxes">'+
                     '<div class="big bigimg">'+
@@ -529,11 +526,10 @@
         }
 /*-------------------------------------------------- 增加商品 --------------------------------------------------------------------*/
         function addProduct() {
-            var loadings = layer.load(0);
             var product = {};
             product.name = document.getElementById("productName").value;
             product.description = document.getElementById("productDescribe").value;
-            product.img = document.getElementById("productImg").value;
+            product.img = document.getElementById("productName").value;
             product.price = document.getElementById("productPrice").value;
             product.counts = document.getElementById("productCount").value;
             product.type = document.getElementById("productType").value;
@@ -554,19 +550,19 @@
                 }
             });
             if(addResult == "success") {
-                fileUpload();
+            	productFileUpload(1);
                 layer.msg('添加商品成功', {icon: 1, time: 1000});
-                layer.close(loadings)
+            }else{
+            	layer.alert('添加商品错误');
             }
-            listAllProduct();
+            /* listAllProduct(); */
         }
         
         function addPet() {
-            var loadings = layer.load(0);
             var product = {};
             product.name = document.getElementById("petName").value;
             product.description = document.getElementById("petDescribe").value;
-            product.img = document.getElementById("petImg").value;
+            product.img = document.getElementById("petName").value;
             product.price = document.getElementById("petPrice").value;
             product.type = document.getElementById("petType").value;
             product.breed = document.getElementById("petBreed").value;
@@ -588,53 +584,89 @@
                     layer.alert('添加宠物错误');
                 }
             });
+            
             if(addResult == "success") {
-                fileUpload();
+            	productFileUpload(0);
                 layer.msg('添加宠物成功', {icon: 1, time: 1000});
-                layer.close(loadings);
-                listAllProduct();
+               /*  listAllProduct(); */
             }else if(addResult=="nameExist"){
             	layer.alert('宠物存在');
-            	layer.close(loadings);
+            }else{
+            	layer.alert('添加商品错误');
             }
         }
+/////////////////////////////////////////////////////////////  上传图片        ////////////////////////////////////////////////////////////////
 
-        //图片上传先不管
-        function fileUpload() {
-/*             var results = "";
-            var name = document.getElementById("productName").value;
-            $.ajaxFileUpload({
-                url:'/Shopping/uploadFile',
-                secureuri:false ,
-                fileElementId:'productImgUpload',
-                type:'POST',
-                dataType : 'text',
-                success: function (result){
-                    result = result.replace(/<pre.*?>/g, '');  //ajaxFileUpload会对服务器响应回来的text内容加上<pre style="....">text</pre>前后缀
-                    result = result.replace(/<PRE.*?>/g, '');
-                    result = result.replace("<PRE>", '');
-                    result = result.replace("</PRE>", '');
-                    result = result.replace("<pre>", '');
-                    result = result.replace("</pre>", '');
-                    result = JSON.parse(result);
-                    results = result.result;
-                    if(results == "success") {
-                        layer.msg("图片上传成功", {icon: 1});
-                        window.location.href = "/Shopping/control";
-                        //var imgPreSee = document.getElementById("imgPreSee");
-                        //var imgSrc = '/Shopping/img/'+name+'.jpg';
-                        //imgPreSee.innerHTML +='<img src="'+imgSrc+')" class="col-sm-12 col-md-12 col-lg-12"/>';
-                    }
-                    else {
-                        layer.msg("图片上传失败", {icon: 0});
-                    }
-
-                },
-                error: function ()
-                {
-                    layer.alert("上传错误");
-                }}
-            ); */
+        function productFileUpload(type) {
+        	if(type == 0){
+        		var results = "";
+                $.ajaxFileUpload({
+                    url:'/Shopping/uploadPetImg',
+                    secureuri:false ,
+                    fileElementId:'petImgUploadInput',
+                    type:'POST',
+                    dataType : 'json',
+                    success: function (result){
+                        result = result.replace(/<pre.*?>/g, '');  //ajaxFileUpload会对服务器响应回来的text内容加上<pre style="....">text</pre>前后缀
+                        result = result.replace(/<PRE.*?>/g, '');
+                        result = result.replace("<PRE>", '');
+                        result = result.replace("</PRE>", '');
+                        result = result.replace("<pre>", '');
+                        result = result.replace("</pre>", '');
+                        result = JSON.parse(result);
+                        results = result.msg;
+                        if(results == "success") {
+                            return ture;
+                        }
+                        else {
+                            layer.msg("图片上传失败", {icon: 0});
+                            return false;
+                        }
+                    },
+                    error: function ()
+                    {
+                    	/* layer.msg("图片上传成功", {icon: 1}); */
+                        layer.alert("上传错误");
+                        return false;
+                    }}
+                ); 
+        	}else if(type == 1){
+                var results = "";
+                $.ajaxFileUpload({
+                    url:'/Shopping/uploadProductImg',
+                    secureuri:false,
+                    fileElementId:'productImgUploadInput',
+                    type:'POST',
+                    dataType : 'json',
+                    success: function (result){
+                        result = result.replace(/<pre.*?>/g, '');  //ajaxFileUpload会对服务器响应回来的text内容加上<pre style="....">text</pre>前后缀
+                        result = result.replace(/<PRE.*?>/g, '');
+                        result = result.replace("<PRE>", '');
+                        result = result.replace("</PRE>", '');
+                        result = result.replace("<pre>", '');
+                        result = result.replace("</pre>", '');
+                        result = JSON.parse(result);
+                        results = result.msg;
+                        if(results == "success") {
+                            /* layer.msg("图片上传成功", {icon: 1}); */
+                           return true;
+                        }
+                        else {
+                            layer.msg("图片上传失败", {icon: 0});
+                            return false;
+                        }
+                    },
+                    error: function ()
+                    {
+                        layer.alert("上传错误");
+                        return false;
+                    }}
+                ); 
+        	}else{
+        		layer.alert("type不对");
+        		return false;
+        	}
+        	
         }
     </script>
 

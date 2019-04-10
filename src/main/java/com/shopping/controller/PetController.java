@@ -1,8 +1,10 @@
 package com.shopping.controller;
 
+import java.io.Console;
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +41,7 @@ import com.shopping.service.ShoppingRecordService;
 
 @Controller
 public class PetController {
-    private static String pname = "";
+    private static String petName = "";
 
     @Resource
     private ShoppingCarService shoppingCarService;
@@ -82,7 +84,7 @@ public class PetController {
     @ResponseBody
     public Map<String, Object> addPet(int type, String name, Date birthday, String breed, String color, String nature, String description, String img, Integer price, Integer relateproduct_id) {
         System.out.println("petname:" + name);
-        pname = name;
+        petName = name;
         Pet pet11 = petService.getPet(name);
         String result = "badRequest";
         int code = 500;
@@ -150,30 +152,27 @@ public class PetController {
 
     @RequestMapping(value = "/uploadPetImg", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUpload, String name, HttpServletRequest request) {
+    public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUploadInput, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
         int code = 500;
+        String fileName = petName+ ".jpg";
         try {
-            System.out.println(pname + "shagnp" + name);
-            if (petImgUpload != null && !petImgUpload.isEmpty()) {
-                //TODO:路径是以后需要改的
-                String fileRealPath = "E:\\GraduateProject\\Shopping\\Shopping\\src\\main\\webapp\\static\\img\\";
-                int id = petService.getPet(pname).getId();
-                String fileName = String.valueOf(id) + ".jpg";
+            if (petImgUploadInput != null && !petImgUploadInput.isEmpty()) {
+                String fileRealPath = "/usr/local/apache-tomcat-8.5.39/webapps/Shopping/static/img/pet";
                 File fileFolder = new File(fileRealPath);
-                System.out.println("fileRealPath=" + fileRealPath + "\\" + fileName);
                 if (!fileFolder.exists()) {
                     fileFolder.mkdirs();
                 }
                 File file = new File(fileFolder, fileName);
-                petImgUpload.transferTo(file);
+                petImgUploadInput.transferTo(file);
                 result = "success";
                 code = 200;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         resultMap.put("msg", result);
         resultMap.put("code", code);
         return resultMap;
