@@ -31,7 +31,7 @@ public class UserController {
     @Resource
     UserService userService;
 
-    @RequestMapping(value = "/doLogin", method = RequestMethod.GET)
+    @PostMapping("/doLogin")
     @ResponseBody
     public Map<String, Object> doLogin(String name, String password, HttpSession httpSession) {
         System.out.println("鐧婚檰淇℃伅锛�" + name + " " + password);

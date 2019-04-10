@@ -128,8 +128,11 @@
       <scope>compile</scope>
     </dependency>
 
-
-
+    <dependency>
+      <groupId>com.qiniu</groupId>
+      <artifactId>qiniu-java-sdk</artifactId>
+      <version>7.2.18</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>shopping</finalName>

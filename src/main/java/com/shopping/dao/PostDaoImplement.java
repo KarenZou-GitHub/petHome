@@ -64,4 +64,12 @@ public class PostDaoImplement implements PostDao {
         return query.executeUpdate() > 0;
 	}
 
+	@Override
+    public List<Post> getPostByUser(int userId) {
+	    String hql = "from Post where user_id=?";
+	    Query query = sessionFactory.getCurrentSession().createQuery(hql);
+	    query.setParameter(0, userId);
+	    return query.list();
+    }
+
 }
