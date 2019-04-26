@@ -34,7 +34,11 @@
       <script src="/Shopping/js/html5shiv.min.js"></script>
       <script src="/Shopping/js/respond.min.js"></script>
       <!-- <![endif] -->
-
+      <style>
+       .big.bigimg img{
+       	width: 100%;
+       }
+      </style>
   </head>
   <body>
     <!--导航栏部分-->
@@ -99,12 +103,6 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="keyWord" class="col-sm-2 col-md-2 control-label">关键词</label>
-                                <div class="col-sm-6 col-md-6">
-                                    <textarea type="text" class="form-control" id="keyWord" placeholder="请输入商品的关键词！用分号隔开！"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label for="productPrice" class="col-sm-2 col-md-2 control-label">商品价格</label>
                                 <div class="col-sm-6 col-md-6">
                                     <input type="text" class="form-control" id="productPrice" placeholder="请输入商品的价格！" />
@@ -114,12 +112,6 @@
                                 <label for="productCount" class="col-sm-2 col-md-2 control-label">商品数量</label>
                                 <div class="col-sm-6 col-md-6">
                                     <input type="text" class="form-control" id="productCount" placeholder="请输入商品的数量！" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="productCount" class="col-sm-2 col-md-2 control-label">封面图片</label>
-                                <div class="col-sm-6 col-md-6">
-                                    <input type="text" class="form-control" id="productImg" placeholder="等会儿再说" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -139,7 +131,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="productImgUploadInput" class="col-sm-2 col-md-2 control-label" accept="image/jpg">宠物图片</label>
+                                <label for="productImgUploadInput" class="col-sm-2 col-md-2 control-label" accept="image/jpg">商品图片</label>
                                 <div class="col-sm-6 col-md-6">
                                     <input name="productImgUploadInput" type="file" accept="image/jpg"  id="productImgUploadInput"/>
                                     <p class="help-block">上传的图片大小应为280*160大小的jpg格式的图片</p>
@@ -203,7 +195,7 @@
                                         <option value="中华田园犬">中华田园犬</option>
                                         <option value="金毛">金毛</option>
                                         <option value="兔子">兔子</option>
-                                        <option value="乌龟">乌龟</option>
+                                        <option value="乌龟">小黄鸭</option>
                                         <option value="其他品种宠物">其他品种宠物</option>
                                     </select>
                                 </div>
@@ -248,12 +240,6 @@
                                 <label for="petPrice" class="col-sm-2 col-md-2 control-label">商品价格</label>
                                 <div class="col-sm-6 col-md-6">
                                     <input type="text" class="form-control" id="petPrice" placeholder="请输入商品的价格！" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="petCount" class="col-sm-2 col-md-2 control-label">封面图片</label>
-                                <div class="col-sm-6 col-md-6">
-                                    <input type="text" class="form-control" id="petImg" placeholder="等会儿再说" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -533,7 +519,6 @@
             product.price = document.getElementById("productPrice").value;
             product.counts = document.getElementById("productCount").value;
             product.type = document.getElementById("productType").value;
-            product.keyWord = document.getElementById("keyWord").value;
             product.relateproduct_id = document.getElementById("productRelateproduct_id").value;
             var addResult="";
             $.ajax({
@@ -599,10 +584,10 @@
 
         function productFileUpload(type) {
         	if(type == 0){
-        		var results = "";
+                var results = "";
                 $.ajaxFileUpload({
                     url:'/Shopping/uploadPetImg',
-                    secureuri:false ,
+                    secureuri:false,
                     fileElementId:'petImgUploadInput',
                     type:'POST',
                     dataType : 'json',
@@ -616,7 +601,8 @@
                         result = JSON.parse(result);
                         results = result.msg;
                         if(results == "success") {
-                            return ture;
+                            /* layer.msg("图片上传成功", {icon: 1}); */
+                           return true;
                         }
                         else {
                             layer.msg("图片上传失败", {icon: 0});
@@ -625,11 +611,10 @@
                     },
                     error: function ()
                     {
-                    	/* layer.msg("图片上传成功", {icon: 1}); */
                         layer.alert("上传错误");
                         return false;
                     }}
-                ); 
+                );
         	}else if(type == 1){
                 var results = "";
                 $.ajaxFileUpload({

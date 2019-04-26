@@ -35,8 +35,6 @@
 
   </head>
   <body>
-    <!--导航栏部分-->
-    <jsp:include page="include/header.jsp"/>
 
     <!-- 中间内容 -->
     <div class="container-fluid" style="padding-top: 80px;padding-bottom: 80px" >
@@ -71,44 +69,6 @@
     <!--尾部-->
     <jsp:include page="include/foot.jsp"/>
 
- <%--   <script type="text/javascript">
-        function startLogin() {
-            var loading = layer.load(0);
-            var user = {};
-            var loginResult = "";
-            user.userNameOrEmail = document.getElementById("inputEmail").value;
-            user.password = document.getElementById("inputPassword").value;
-            $.ajax({
-                async : false,
-                type : 'POST',
-                url : '/Shopping/doLogin',
-                data : user,
-                dataType : 'json',
-                success : function(result) {
-                    loginResult = result.result;
-                    layer.close(loading);
-                },
-                error : function(result) {
-                    layer.alert('查询用户错误');
-                }
-            });
-
-            if(loginResult == 'success'){
-                layer.msg('登录成功',{icon:1});
-                window.location.href = "/Shopping/main";
-            }
-            else if(loginResult == 'unexist'){
-                layer.msg('是不是用户名记错了？',{icon:2});
-            }
-            else if(loginResult == 'wrong'){
-                layer.msg('密码不对哦，再想想~',{icon:2});
-            }
-            else if(loginResult == 'fail'){
-                layer.msg('服务器异常',{icon:2});
-            }
-
-        }
-    </script>--%>
 
     <script type="text/javascript">
         function startLogin() {
@@ -119,7 +79,7 @@
             user.password = document.getElementById("inputPassword").value;
             $.ajax({
                 async : false,
-                type : 'GET',
+                type : 'POST',
                 url : '/Shopping/doLogin',
                 data : user,
                 dataType : 'json',

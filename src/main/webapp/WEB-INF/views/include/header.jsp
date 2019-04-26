@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>基于在线推荐购物系统</title>
+    <title>萌宠商城</title>
     <%--<link href="/Shopping/css/bootstrap.min.css" rel="stylesheet">
     <link href="/Shopping/css/style.css" rel="stylesheet">
 
@@ -49,33 +49,11 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-            <ul class="nav navbar-nav navbar-right">
-                <c:if test="${empty currentUser}">
-                    <li><a href="/Shopping/register" methods="post">注册</a></li>
-                    <li><a href="/Shopping/login" methods="post">登录</a></li>
-                </c:if>
-                <c:if test="${not empty currentUser}">
-                    <c:if test="${currentUser.role == 1}">
-                        <li><a href="/Shopping/control" methods="post">控制台</a></li>
-                    </c:if>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                ${currentUser.name}
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/Shopping/shopping_car">购物车</a></li>
-                            <li><a href="/Shopping/shopping_record">订单状态</a></li>
-                            <c:if test="${currentUser.role == 1}">
-                                <li><a href="/Shopping/shopping_handle">处理订单</a></li>
-                            </c:if>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="/Shopping/amend_info">个人资料修改</a></li>
-                            <li><a href="/Shopping/doLogout">注销登录</a></li>
-                        </ul>
-                    </li>
-                </c:if>
+            <ul class="nav navbar-nav navbar-right" style="height:50px; line-height: 50px;">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  ${currentUser.name}
+                  <span class="caret"></span>
+              </a>
             </ul>
 
             <div class="navbar-form navbar-right">
@@ -87,28 +65,6 @@
         </div>
     </div>
 </nav>
-<%--<script type="text/javascript">
-    function searchProduct() {
-        var search = {};
-        search.searchKeyWord = document.getElementById("searchKeyWord").value;
-        var searchResult = "";
-        $.ajax({
-            async : false,
-            type : 'POST',
-            url : '/Shopping/searchPre',
-            data : search,
-            dataType : 'json',
-            success : function(result) {
-                searchResult = result.result;
-            },
-            error : function(result) {
-                layer.alert('查询错误');
-            }
-        });
-        if(searchResult == "success")
-            window.location.href = "/Shopping/search";
-    }
-</script>--%>
 
 <script type="text/javascript">
     function searchProduct() {

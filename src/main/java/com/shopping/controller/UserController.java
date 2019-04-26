@@ -36,7 +36,7 @@ public class UserController {
     public Map<String, Object> doLogin(String name, String password, HttpSession httpSession) {
         System.out.println("鐧婚檰淇℃伅锛�" + name + " " + password);
         String result = "badRequest";
-        Integer code = 201;
+        int code = 201;
         User user = userService.getUser(name);
         if (user == null) {
             result = "unExistUser";
@@ -57,7 +57,7 @@ public class UserController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/doRegister")
+    @PostMapping(value = "/doRegister")
     @ResponseBody
     public Map<String, Object> doRegister(String name, String password, String head, String phoneNumber, String email, String address) {
 

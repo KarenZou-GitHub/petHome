@@ -39,7 +39,6 @@ public class ShoppingRecord {
         this.user_id = userId;
     }
 
-    
     @Column(name="product_id")
     public int getProduct_id() {
         return product_id;
@@ -48,7 +47,6 @@ public class ShoppingRecord {
     public void setProduct_id(int productId) {
         this.product_id = productId;
     }
-    
     
     @Column(name="time")
     public String getTime() {

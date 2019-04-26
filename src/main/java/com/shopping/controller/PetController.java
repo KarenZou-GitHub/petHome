@@ -62,7 +62,7 @@ public class PetController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/deletePet", method = RequestMethod.GET)
+    @RequestMapping(value = "/deletePet", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deletePet(Integer id) {
         String result = "badRequest";
@@ -159,7 +159,7 @@ public class PetController {
         String fileName = petName+ ".jpg";
         try {
             if (petImgUploadInput != null && !petImgUploadInput.isEmpty()) {
-                String fileRealPath = "/usr/local/apache-tomcat-8.5.39/webapps/Shopping/static/img/pet";
+            	String fileRealPath = "/usr/local/apache-tomcat-8.5.39/webapps/Shopping/static/img/pet";
                 File fileFolder = new File(fileRealPath);
                 if (!fileFolder.exists()) {
                     fileFolder.mkdirs();

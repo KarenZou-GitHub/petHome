@@ -72,10 +72,12 @@ div:hover {
 	cursor: pointer;
 }
 .big img {
+	width:100%;
 	display:block;
 	position: relative;
 }
 .bigimg img {
+	width:100%;
 	opacity:1;
 	-moz-transform:scale(1, 1);
 	-webkit-transform:scale(1, 1);
