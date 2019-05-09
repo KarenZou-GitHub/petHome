@@ -31,9 +31,23 @@ public class CommentController {
     public Map<String,Object> getAllComments(){
         List<Comment> commentList = new ArrayList<>();
         commentList = commentservice.getAllComment();
-        String allComments = JSONArray.toJSONString(commentList);
+//        String allComments = JSONArray.toJSONString(commentList);
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("allComments",allComments);
+        resultMap.put("data",commentList);
+        resultMap.put("msg", "success");
+        resultMap.put("code", 200);
+        return resultMap;
+    }
+    
+    @RequestMapping(value = "/getCommentsByPostId")
+    @ResponseBody
+    public Map<String,Object> getCommentsByPostId(String postId){
+        List<Comment> commentList = new ArrayList<>();
+        if(postId == null) return null;
+        commentList = commentservice.getCommentsByPostId(postId);
+//        String allComments = JSONArray.toJSONString(commentList);
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        resultMap.put("data",commentList);
         resultMap.put("msg", "success");
         resultMap.put("code", 200);
         return resultMap;

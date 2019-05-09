@@ -45,18 +45,22 @@ public class ShoppingRecordController {
     @Resource
     private ShoppingRecordService shoppingRecordService;
 
+    //这个是提交订单之后，生成的购买记录，这是增加一个购买记录的函数
     @RequestMapping(value = "/addShoppingRecord", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> addShoppingRecord(int type, int userId, int productId, int counts) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
         Integer code = 500;
+        //如果是宠物用品的话，那就添加宠物用品的记录
         if (type == 1) {
+        	//首先这个产品是不是存在
             Product product = productService.getProduct(productId);
             if (product == null) {
                 result = "unExistProduct";
                 code = 2002;
             } else if (counts <= product.getCounts()) {
+            	//其次数目是不是比数据库中的少
                 ShoppingRecord shoppingRecord = new ShoppingRecord();
                 shoppingRecord.setType(type);
                 shoppingRecord.setUser_id(userId);
@@ -64,12 +68,15 @@ public class ShoppingRecordController {
                 shoppingRecord.setProduct_price(product.getPrice());
                 shoppingRecord.setProduct_name(product.getName());
                 shoppingRecord.setCounts(counts);
+                //获取现在的时间
                 Date date = new Date();
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
                 shoppingRecord.setTime(sf.format(date));
+                //如果数目正好，就在数据库中把这个产品删掉，表示没有这个产品了
                 if (counts == product.getCounts()) {
                     productService.deleteProduct(productId);
                 } else {
+                	//如果数目比数据库的少，那就把数据库中的数据更新一下
                     product.setCounts(product.getCounts() - counts);
                     productService.updateProduct(product);
                 }
@@ -81,6 +88,7 @@ public class ShoppingRecordController {
                 code = 3006;
             }
         } else if (type == 0) {
+        	//如果是宠物的话。不存在数目问题，数据库中直接删除本宠物
             Pet pet = petService.getPet(productId);
             if (counts == 1) {
                 ShoppingRecord shoppingRecord = new ShoppingRecord();
@@ -107,7 +115,8 @@ public class ShoppingRecordController {
         return resultMap;
     }
     
-    ///////////////////////////////   大佬这是我新加的list     ////////////////////////////////////////////////////////
+    ///////////////////////////////   这是我新加的list     ////////////////////////////////////////////////////////
+    //这是增加一整个列表的记录，会调用增加一个的记录，
     @RequestMapping(value = "/addShoppingRecordList", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> addShoppingRecordList(Integer userId,String lists) {

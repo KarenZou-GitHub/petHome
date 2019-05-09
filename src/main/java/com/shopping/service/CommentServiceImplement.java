@@ -36,4 +36,9 @@ public class CommentServiceImplement implements CommentService {
 		return commentdao.getComment(id);
 	}
 
+	@Override
+	public List<Comment> getCommentsByPostId(String id) {
+		return commentdao.getCommentsByPostId(id);
+	}
+
 }

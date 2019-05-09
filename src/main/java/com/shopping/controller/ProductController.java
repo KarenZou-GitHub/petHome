@@ -179,11 +179,13 @@ public class ProductController {
         return "product_detail";
     }
     
+    
+    //这个函数的功能是查找宠物用品
     @RequestMapping(value = "/searchSupply")
     @ResponseBody
     public Map<String, Object> searchPet(String keyWord) {
-        // TODO Auto-generated method stub
         List<Product> productList = new ArrayList<>();
+        //这句是根据keyword查找出一个用品列表
         productList = productService.searchSupply(keyWord);
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("data", productList);

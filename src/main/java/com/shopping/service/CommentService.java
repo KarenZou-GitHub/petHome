@@ -14,4 +14,6 @@ public interface CommentService {
 
 	Comment getComment(int id);
 
+	List<Comment> getCommentsByPostId(String id);
+
 }

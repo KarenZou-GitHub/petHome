@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.shopping.entity.Product;
 import com.shopping.entity.User;
 import com.shopping.service.UserService;
+
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +32,12 @@ public class UserController {
 
     @Resource
     UserService userService;
+    
+    private User currentUser;
 
     @PostMapping("/doLogin")
     @ResponseBody
-    public Map<String, Object> doLogin(String name, String password, HttpSession httpSession) {
+    public Map<String, Object> doLogin(String name, String password) {
         System.out.println("鐧婚檰淇℃伅锛�" + name + " " + password);
         String result = "badRequest";
         int code = 201;
@@ -45,7 +49,9 @@ public class UserController {
             if (user.getPassword().equals(password)) {
                 result = "success";
                 code = 200;
-                httpSession.setAttribute("currentUser", user);
+//                httpSession.setAttribute("currentUser", user);
+                currentUser = user;
+                
             } else {
                 result = "wrongPassword";
                 code = 1003;
@@ -74,7 +80,7 @@ public class UserController {
             user1.setName(name);
             user1.setPassword(password);
             user1.setPhoneNumber(phoneNumber);
-            user1.setHead(head);
+            user1.setHead("https://wx2.sinaimg.cn/orj360/006e6YVzly1g2rxsd4ldaj30u00u0ad5.jpg");
             user1.setAddress(address);
             user1.setEmail(email);
             user1.setRole(0);
@@ -171,9 +177,7 @@ public class UserController {
     @RequestMapping(value = "/doLogout")
     @ResponseBody
     public void doLogout(HttpSession httpSession) {
-    	if(httpSession.getAttribute("currentUser")!= null){
-    		httpSession.setAttribute("currentUser", "");
-    	}
+    	 currentUser = null;
     }
 
     @RequestMapping(value = "/getUserById", method = RequestMethod.GET)
@@ -185,8 +189,8 @@ public class UserController {
             resultMap.put("code", 1002);
         } else {
             User user = userService.getUser(id);
-            String userstr = JSON.toJSONString(user);
-            resultMap.put("data", userstr);
+//            String userstr = JSON.toJSONString(user);
+            resultMap.put("data", user);
             resultMap.put("msg", "success");
             resultMap.put("code", 200);
         }
@@ -197,7 +201,7 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> getUserInfo(HttpSession httpSession) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        Object currentUser = httpSession.getAttribute("currentUser");
+//        Object currentUser = httpSession.getAttribute("currentUser");
         if (null == currentUser) {
             resultMap.put("msg", "user not login");
             resultMap.put("code", 204);

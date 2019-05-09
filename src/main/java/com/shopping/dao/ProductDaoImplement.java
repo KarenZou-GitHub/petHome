@@ -56,6 +56,7 @@ public class ProductDaoImplement implements ProductDao {
         return query.executeUpdate() > 0;
     }
 
+    //这个是dao层中查询方法，主要就是拼sql语句，然后hibernate执行
     @Override
     public List<Product> getProductsByKeyWord(String searchKeyWord) {
         String queryKeyWord = "%";
@@ -63,10 +64,13 @@ public class ProductDaoImplement implements ProductDao {
             queryKeyWord += String.valueOf(searchKeyWord.charAt(i)) +"%";
         }
         System.out.println("我搜索了"+queryKeyWord);
+        //这句是拼接可执行的hibernate语句，比较好的地方时没有必要看数据库里表项的名字，直接使用实体类的变量名就行
         String hql = "from Product where name like ? or description like ?";
+        //实例化一个查询接口
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter(0,queryKeyWord);
         query.setParameter(1,queryKeyWord);
+        //执行，获取数据
         return query.list();
     }
 

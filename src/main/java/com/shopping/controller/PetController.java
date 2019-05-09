@@ -149,7 +149,7 @@ public class PetController {
         //这个是随便写写的
     }
 
-
+//功能是上传宠物图片，用了springmvc的multipartfile，主要是先找到路径，然后将二进制的数据流换成file，然后存起来就可以了
     @RequestMapping(value = "/uploadPetImg", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> uploadFile(@RequestParam MultipartFile petImgUploadInput, HttpServletRequest request) {
@@ -159,12 +159,16 @@ public class PetController {
         String fileName = petName+ ".jpg";
         try {
             if (petImgUploadInput != null && !petImgUploadInput.isEmpty()) {
+            	//首先定义文件路径
             	String fileRealPath = "/usr/local/apache-tomcat-8.5.39/webapps/Shopping/static/img/pet";
+            	//创建一个新的文件夹
                 File fileFolder = new File(fileRealPath);
                 if (!fileFolder.exists()) {
                     fileFolder.mkdirs();
                 }
+                //在这个文件夹下建一个新的文件
                 File file = new File(fileFolder, fileName);
+                //这句非常重要，这句是把二进制流转换成file
                 petImgUploadInput.transferTo(file);
                 result = "success";
                 code = 200;

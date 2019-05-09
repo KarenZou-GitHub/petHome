@@ -44,4 +44,12 @@ public class CommentDaoImplement implements CommentDao {
         return (Comment) query.uniqueResult();
 	}
 
+	@Override
+	public List<Comment> getCommentsByPostId(String id) {
+        String hql = "from Comment where post_id=?";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter(0, Integer.valueOf(id));
+        return query.list();
+	}
+
 }
