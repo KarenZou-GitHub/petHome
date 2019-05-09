@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,11 +34,9 @@ public class UserController {
     @Resource
     UserService userService;
     
-    private User currentUser;
-
     @PostMapping("/doLogin")
     @ResponseBody
-    public Map<String, Object> doLogin(String name, String password) {
+    public Map<String, Object> doLogin(String name, String password, HttpSession httpSession) {
         System.out.println("鐧婚檰淇℃伅锛�" + name + " " + password);
         String result = "badRequest";
         int code = 201;
@@ -49,9 +48,7 @@ public class UserController {
             if (user.getPassword().equals(password)) {
                 result = "success";
                 code = 200;
-//                httpSession.setAttribute("currentUser", user);
-                currentUser = user;
-                
+                httpSession.setAttribute("currentUser", user);
             } else {
                 result = "wrongPassword";
                 code = 1003;
@@ -176,8 +173,12 @@ public class UserController {
 
     @RequestMapping(value = "/doLogout")
     @ResponseBody
-    public void doLogout(HttpSession httpSession) {
-    	 currentUser = null;
+    public Map<String, Object> doLogout(HttpSession httpSession) {
+        httpSession.removeAttribute("currentUser");
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("msg", "success");
+        result.put("code", 200);
+        return result;
     }
 
     @RequestMapping(value = "/getUserById", method = RequestMethod.GET)
@@ -189,7 +190,6 @@ public class UserController {
             resultMap.put("code", 1002);
         } else {
             User user = userService.getUser(id);
-//            String userstr = JSON.toJSONString(user);
             resultMap.put("data", user);
             resultMap.put("msg", "success");
             resultMap.put("code", 200);
@@ -201,7 +201,7 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> getUserInfo(HttpSession httpSession) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-//        Object currentUser = httpSession.getAttribute("currentUser");
+        Object currentUser = httpSession.getAttribute("currentUser");
         if (null == currentUser) {
             resultMap.put("msg", "user not login");
             resultMap.put("code", 204);

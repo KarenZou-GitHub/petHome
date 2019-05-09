@@ -2,6 +2,7 @@ package com.shopping.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.shopping.entity.ShoppingCar;
+import com.shopping.entity.User;
 import com.shopping.service.PetService;
 import com.shopping.service.ProductService;
 import com.shopping.service.ShoppingCarService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +70,9 @@ public class ShoppingCarController {
 
     @RequestMapping(value = "/getShoppingCars", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getShoppingCars(int userId) {
-        List<ShoppingCar> shoppingCarList = shoppingCarService.getShoppingCars(userId);
+    public Map<String, Object> getShoppingCars(HttpSession httpSession) {
+        User currentUser = (User) httpSession.getAttribute("currentUser");
+        List<ShoppingCar> shoppingCarList = shoppingCarService.getShoppingCars(currentUser.getId());
         String shoppingCars = JSONArray.toJSONString(shoppingCarList);
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("shoppingCars", shoppingCars);
