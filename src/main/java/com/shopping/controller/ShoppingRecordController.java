@@ -70,7 +70,7 @@ public class ShoppingRecordController {
                 shoppingRecord.setCounts(counts);
                 //获取现在的时间
                 Date date = new Date();
-                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 shoppingRecord.setTime(sf.format(date));
                 //如果数目正好，就在数据库中把这个产品删掉，表示没有这个产品了
                 if (counts == product.getCounts()) {
@@ -99,7 +99,7 @@ public class ShoppingRecordController {
                 shoppingRecord.setProduct_name(pet.getName());
                 shoppingRecord.setCounts(counts);
                 Date date = new Date();
-                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 shoppingRecord.setTime(sf.format(date));
                 petService.deletePet(productId);
                 shoppingRecordService.addShoppingRecord(shoppingRecord);

@@ -188,7 +188,7 @@ public class PetController {
     public Map<String, Object> searchPet(String keyWord) {
         List<Pet> petList = new ArrayList<>();
         petList = petService.searchPet(keyWord);
-        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();        
         resultMap.put("data", petList);
         resultMap.put("msg", "success");
         resultMap.put("code", 200);

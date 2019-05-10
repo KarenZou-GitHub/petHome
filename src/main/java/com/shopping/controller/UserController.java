@@ -94,13 +94,13 @@ public class UserController {
 
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doUpdate(int id, String name, String email, String head, String password, String phoneNumber, String address) {
+    public Map<String, Object> doUpdate(String id, String name, String email, String head, String password, String phoneNumber, String address, HttpSession httpSession) {
         String result = "badRequest";
         Integer code = 202;
 
-        User user = userService.getUser(id);
+        User user = userService.getUser(Integer.valueOf(id));
         User user1 = userService.getUser(phoneNumber);
-        if (user1.getId() != user.getId()) {
+        if (user1 !=null && user1.getId() != user.getId()) {
             result = "phoneExist";
             code = 1004;
         } else {
@@ -110,6 +110,7 @@ public class UserController {
             user.setPassword(password);
             user.setPhoneNumber(phoneNumber);
             userService.updateUser(user);
+            httpSession.setAttribute("currentUser", user);
             result = "success";
             code = 200;
         }
@@ -183,13 +184,13 @@ public class UserController {
 
     @RequestMapping(value = "/getUserById", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getUserById(Integer id) {
+    public Map<String, Object> getUserById(String id) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         if (id == null) {
             resultMap.put("msg", "unExsitUser");
             resultMap.put("code", 1002);
         } else {
-            User user = userService.getUser(id);
+            User user = userService.getUser(Integer.valueOf(id));
             resultMap.put("data", user);
             resultMap.put("msg", "success");
             resultMap.put("code", 200);

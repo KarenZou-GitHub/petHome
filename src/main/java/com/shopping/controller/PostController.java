@@ -59,7 +59,7 @@ public class PostController {
         post.setTitle(title);
         post.setContent(content);
         Date date = new Date();
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         post.setTime(sf.format(date));
         postService.addPost(post);
 

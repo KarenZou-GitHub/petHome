@@ -114,12 +114,12 @@
                                     <input type="text" class="form-control" id="productCount" placeholder="请输入商品的数量！" />
                                 </div>
                             </div>
-                            <div class="form-group">
+<!--                             <div class="form-group">
                                 <label for="productCount" class="col-sm-2 col-md-2 control-label">相关产品</label>
                                 <div class="col-sm-6 col-md-6">
                                     <input type="text" class="form-control" id="productRelateproduct_id" placeholder="相关产品id" />
                                 </div>
-                            </div>                                                        
+                            </div> -->                                                        
                             <div class="form-group">
                                 <label for="productCategory" class="col-sm-2 col-md-2 control-label">商品类别</label>
                                 <div class="col-sm-6 col-md-6">
@@ -242,12 +242,12 @@
                                     <input type="text" class="form-control" id="petPrice" placeholder="请输入商品的价格！" />
                                 </div>
                             </div>
-                            <div class="form-group">
+<!--                             <div class="form-group">
                                 <label for="petCount" class="col-sm-2 col-md-2 control-label">相关产品</label>
                                 <div class="col-sm-6 col-md-6">
                                     <input type="text" class="form-control" id="petRelateproduct_id" placeholder="相关产品id" />
                                 </div>
-                            </div>                                                        
+                            </div>    -->                                                     
 
                             <div class="form-group">
                                 <label for="petImgUploadInput" class="col-sm-2 col-md-2 control-label" accept="image/jpg">商品图片</label>
@@ -519,7 +519,8 @@
             product.price = document.getElementById("productPrice").value;
             product.counts = document.getElementById("productCount").value;
             product.type = document.getElementById("productType").value;
-            product.relateproduct_id = document.getElementById("productRelateproduct_id").value;
+            /* product.relateproduct_id = document.getElementById("productRelateproduct_id").value; */
+            product.related_id = 1;
             var addResult="";
             $.ajax({
                 async : false,
@@ -554,7 +555,8 @@
             product.color = document.getElementById("petColor").value;
             product.nature = document.getElementById("petNature").value;
             product.birthday = document.getElementById("birthday").value;
-            product.relateproduct_id = document.getElementById("petRelateproduct_id").value;
+            /* product.relateproduct_id = document.getElementById("petRelateproduct_id").value; */
+            product.relateproduct_id = 1;
             var addResult="";
             $.ajax({
                 async : false,
