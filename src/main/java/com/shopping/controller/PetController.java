@@ -101,8 +101,8 @@ public class PetController {
             pet.setNature(nature);
             pet.setDescription(description);
             pet.setPrice(price);
-            pet.setImg("/Shopping/img/pet/"+img+"。jpg");
-            pet.setRelateproduct_id(relateproduct_id);
+            pet.setImg("http://47.100.12.81/Shopping/img/pet/"+img+".jpg");
+            pet.setRelateproduct_id(1);
             petService.addpet(pet);
             result = "success";
             code = 200;

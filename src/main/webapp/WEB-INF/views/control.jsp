@@ -134,7 +134,7 @@
                                 <label for="productImgUploadInput" class="col-sm-2 col-md-2 control-label" accept="image/jpg">商品图片</label>
                                 <div class="col-sm-6 col-md-6">
                                     <input name="productImgUploadInput" type="file" accept="image/jpg"  id="productImgUploadInput"/>
-                                    <p class="help-block">上传的图片大小应为280*160大小的jpg格式的图片</p>
+                                    <p class="help-block">上传的图片大小应为正方形，且100k以内的jpg格式的图片</p>
                                 </div>
                                 <!-- <button class="btn btn-primary col-sm-2 col-md-2" onclick="productFileUpload(1)">上传图片</button> -->
                             </div>
@@ -189,14 +189,14 @@
                                         <option value="田园猫">田园猫</option>
                                         <option value="虎斑猫">虎斑猫</option>
                                         <option value="布偶猫">布偶猫</option>
-                                        <option value="其他猫咪品种">其他品种猫咪</option>
+                                        <option value="其他猫咪品种">其他猫咪</option>
                                         <option value="狮子狗">狮子狗</option>
                                         <option value="拉布拉多">拉布拉多</option>
                                         <option value="中华田园犬">中华田园犬</option>
                                         <option value="金毛">金毛</option>
                                         <option value="兔子">兔子</option>
                                         <option value="乌龟">小黄鸭</option>
-                                        <option value="其他品种宠物">其他品种宠物</option>
+                                        <option value="其他品种宠物">其他宠物</option>
                                     </select>
                                 </div>
                             </div>
@@ -253,7 +253,7 @@
                                 <label for="petImgUploadInput" class="col-sm-2 col-md-2 control-label" accept="image/jpg">商品图片</label>
                                 <div class="col-sm-6 col-md-6">
                                     <input name="petImgUploadInput" type="file" accept="image/jpg"  id="petImgUploadInput"/>
-                                    <p class="help-block">上传的图片大小应为280*160大小的jpg格式的图片</p>
+                                    <p class="help-block">上传的图片大小应为正方形，且100k以内的jpg格式的图片</p>
                                 </div>
                                 <!-- <button class="btn btn-primary col-sm-2 col-md-2" onclick="productFileUpload(0)">上传图片</button> -->
                             </div>
@@ -299,7 +299,7 @@
             userTable.innerHTML = '<tr>'+
                 '<th> 用户ID </th>'+
                 '<th> 用户名</th>'+
-                '<th> 昵称</th>'+
+                '<th> 手机号</th>'+
                 '<th> 邮箱</th>'+
                 '<th> 是否删除</th>'+
                 '</tr>';
@@ -349,11 +349,10 @@
             var html="";
             productArea.innerHTML = '';
             for(var i=0;i<allProduct.length;i++){
-                var imgURL = "/Shopping/img/supply/"+allProduct[i].name+".jpg";
                 html+='<div class="col-sm-4 col-md-4 pd-5">'+
                     '<div class="boxes">'+
                     '<div class="big bigimg">'+
-                    '<img src="'+imgURL+'">'+
+                    '<img src="'+allProduct[i].img+'">'+
                     '</div>'+
                     '<p class="font-styles center">'+allProduct[i].name+'</p>'+
                     '<p class="pull-right">价格：'+allProduct[i].price+'</p>'+
@@ -398,11 +397,10 @@
             var html="";
             petArea.innerHTML = '';
             for(var i=0;i<allPet.length;i++){
-            	var imgURL = "/Shopping/img/pet/" +allPet[i].name+".jpg";
                 html+='<div class="col-sm-4 col-md-4 pd-5">'+
                     '<div class="boxes">'+
                     '<div class="big bigimg">'+
-                    '<img src="'+imgURL+'">'+
+                    '<img src="'+allPet[i].img+'">'+
                     '</div>'+
                     '<p class="font-styles center">'+allPet[i].name+'</p>'+
                     '<p class="pull-right">价格：'+allPet[i].price+'</p>'+
@@ -520,7 +518,7 @@
             product.counts = document.getElementById("productCount").value;
             product.type = document.getElementById("productType").value;
             /* product.relateproduct_id = document.getElementById("productRelateproduct_id").value; */
-            product.related_id = 1;
+            product.relateproduct_id = 1;
             var addResult="";
             $.ajax({
                 async : false,

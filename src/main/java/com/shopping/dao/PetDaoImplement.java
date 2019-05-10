@@ -28,7 +28,7 @@ public class PetDaoImplement implements PetDao {
 
 	@Override
 	public Pet getPet(int id) {
-		String hql = "from Pet where id=?";
+		String hql = "from Pet where id=? and counts > 0";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter(0, id);
         return (Pet) query.uniqueResult();

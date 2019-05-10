@@ -23,4 +23,6 @@ public interface ProductService {
     public List<Product> getAllProduct();
 
 	public List<Product> searchSupply(String keyWord);
+
+	public void setCountsZero(int productId);
 }

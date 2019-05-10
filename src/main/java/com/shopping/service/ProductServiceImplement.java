@@ -57,4 +57,10 @@ public class ProductServiceImplement implements ProductService {
 		// TODO Auto-generated method stub
 		return productDao.getProductsByKeyWord(keyWord);
 	}
+
+	@Override
+	public void setCountsZero(int productId) {
+		// TODO Auto-generated method stub
+		productDao.setCountdZero(productId);
+	}
 }

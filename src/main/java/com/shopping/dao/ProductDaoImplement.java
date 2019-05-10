@@ -16,7 +16,7 @@ public class ProductDaoImplement implements ProductDao {
 
     @Override
     public Product getProduct(int id) {
-        String hql = "from Product where id=?";
+        String hql = "from Product where id=? and counts>0";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter(0, id);
         return (Product) query.uniqueResult();
@@ -89,4 +89,12 @@ public class ProductDaoImplement implements ProductDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         return query.list();
     }
+
+	@Override
+	public boolean setCountdZero(int id) {
+		String hql = "update Product set counts = 0 where id=?";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter(0,id);	
+        return query.executeUpdate() > 0;
+	}
 }

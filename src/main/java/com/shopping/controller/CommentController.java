@@ -72,14 +72,13 @@ public class CommentController {
 
     @RequestMapping(value = "/addComment", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addComment(String post_id,String content,HttpSession httpSession) {
+    public Map<String, Object> addComment(String user_id,String post_id,String content,HttpSession httpSession) {
     	Map<String,Object> resultMap = new HashMap<String,Object>();
-    	User currentUser = (User)httpSession.getAttribute("currentUser");
+    	Object currentUser = httpSession.getAttribute("currentUser");
     	String result = "badRequest";
         int code=500;
         Comment comment = new Comment();
-//        comment.setUser_id(currentUser.getId());
-        comment.setUser_id(1);
+        comment.setUser_id(Integer.valueOf(user_id));
         comment.setPost_id(Integer.valueOf(post_id));
         comment.setContent(content);
         Date date = new Date();

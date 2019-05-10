@@ -23,4 +23,6 @@ public interface ProductDao {
     public List<Product> getProductsByType(int type);
 
     public List<Product> getAllProduct();
+
+	public boolean setCountdZero(int id);
 }

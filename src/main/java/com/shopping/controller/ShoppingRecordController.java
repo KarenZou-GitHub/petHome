@@ -48,12 +48,12 @@ public class ShoppingRecordController {
     //这个是提交订单之后，生成的购买记录，这是增加一个购买记录的函数
     @RequestMapping(value = "/addShoppingRecord", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addShoppingRecord(int type, int userId, int productId, int counts) {
+    public Map<String, Object> addShoppingRecord(String breed, int userId, int productId, int counts) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String result = "badRequest";
         Integer code = 500;
         //如果是宠物用品的话，那就添加宠物用品的记录
-        if (type == 1) {
+        if (null == breed) {
         	//首先这个产品是不是存在
             Product product = productService.getProduct(productId);
             if (product == null) {
@@ -62,7 +62,7 @@ public class ShoppingRecordController {
             } else if (counts <= product.getCounts()) {
             	//其次数目是不是比数据库中的少
                 ShoppingRecord shoppingRecord = new ShoppingRecord();
-                shoppingRecord.setType(type);
+                shoppingRecord.setType(1);
                 shoppingRecord.setUser_id(userId);
                 shoppingRecord.setProduct_id(productId);
                 shoppingRecord.setProduct_price(product.getPrice());
@@ -72,9 +72,9 @@ public class ShoppingRecordController {
                 Date date = new Date();
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 shoppingRecord.setTime(sf.format(date));
-                //如果数目正好，就在数据库中把这个产品删掉，表示没有这个产品了
+                //如果数目正好，就在数据库中把这个数量变为零，表示没有这个产品了
                 if (counts == product.getCounts()) {
-                    productService.deleteProduct(productId);
+                    productService.setCountsZero(productId);
                 } else {
                 	//如果数目比数据库的少，那就把数据库中的数据更新一下
                     product.setCounts(product.getCounts() - counts);
@@ -87,12 +87,12 @@ public class ShoppingRecordController {
                 result = "notEnough";
                 code = 3006;
             }
-        } else if (type == 0) {
+        } else if (null != breed) {
         	//如果是宠物的话。不存在数目问题，数据库中直接删除本宠物
             Pet pet = petService.getPet(productId);
             if (counts == 1) {
                 ShoppingRecord shoppingRecord = new ShoppingRecord();
-                shoppingRecord.setType(type);
+                shoppingRecord.setType(0);
                 shoppingRecord.setUser_id(userId);
                 shoppingRecord.setProduct_id(productId);
                 shoppingRecord.setProduct_price(pet.getPrice());
@@ -129,7 +129,7 @@ public class ShoppingRecordController {
         JSONArray ja = jsonlists.getJSONArray("data");
         for(int i=0; i<ja.size(); i++){
         	JSONObject jsoni = ja.getJSONObject(i); 
-        	resultMap = addShoppingRecord((int)jsoni.get("type"), userId, (int)jsoni.get("id"),(int)jsoni.get("count"));
+        	resultMap = addShoppingRecord((String)jsoni.get("breed"), userId, (int)jsoni.get("id"),(int)jsoni.get("count"));
         	if((String)resultMap.get("msg") != "success"){
                 return resultMap;
         	}

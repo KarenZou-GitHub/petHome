@@ -110,8 +110,8 @@ public class ProductController {
             product.setPrice((int) price);
             product.setCounts((int) counts);
             product.setType((int) type);
-            product.setImg("/Shopping/img/supply/"+img+".jpg");
-            product.setRelateproduct_id((int) relateproduct_id);
+            product.setImg("http://47.100.12.81/Shopping/img/supply/"+img+".jpg");
+            product.setRelateproduct_id(1);
             productService.addProduct(product);
             result = "success";
             code = 200;
